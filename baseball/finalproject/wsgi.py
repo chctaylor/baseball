@@ -1,5 +1,5 @@
 """
-WSGI config for baseball project.
+WSGI config for finalproject project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'baseball.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finalproject.settings')
 
 application = get_wsgi_application()
