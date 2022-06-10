@@ -1,0 +1,15 @@
+{% extends "baseball/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+    <h2>Test Date: {{ todays_date|date:"Ymd" }}</h2>
+
+    <div id="games">
+        Here are the games for today:
+        <div id="game">
+
+        </div>
+    </div>
+    
+{% endblock %}

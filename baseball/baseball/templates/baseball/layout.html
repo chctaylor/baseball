@@ -11,8 +11,74 @@
     </head>
 
     <body>
+        <!-- Testing pulling game information -->
+<!--         <script>
+            document.addEventListener('DOMContentLoaded', function() {
 
+                // Retrieve todays date and games
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0');
+                    var yyyy = today.getFullYear();
+
+                    today = yyyy + mm + dd;
+
+                    console.log(today);
+
+                fetch(`http://lookup-service-prod.mlb.com/json/named.mlb_broadcast_info.bam?src_type='TV'&tcid=mm_mlb_schedule&sort_by='game_time_et_asc'&home_away='H'&start_date='${today}'&end_date='${today}'&season='2022'`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                });
+            });
+        </script>
+ -->        
+        <!-- End Test -->
+        <h2 id="blue">TEST</h2>
         {% include 'baseball/navbar.html' %}
+
+        <!-- Testing Bootstrap Carousel for game info -->
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Changing to card format with 3 areas -->
+                <div class="carousel-item active">
+                    <div class="card" style="width:12rem;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Date/Time</li>
+                            <li class="list-group-item">Team 1</li>
+                            <li class="list-group-item">Team 2</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card" style="width:12rem;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Date/Time</li>
+                            <li class="list-group-item">Team 3</li>
+                            <li class="list-group-item">Team 4</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card" style="width:12rem;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Date/Time</li>
+                            <li class="list-group-item">Team 5</li>
+                            <li class="list-group-item">Team 6</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- End Test -->
 
         <div>
             {% block body %}
@@ -20,6 +86,7 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="{% static 'baseball/functions.js' %}"></script>
     </body>
 
 </html>

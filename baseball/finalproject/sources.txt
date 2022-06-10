@@ -1,0 +1,8 @@
+Below are credits to the references found online that helped me with various areas of my project
+
+Referenced to help format the date using javascript
+    - https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript#:~:text=Use%20new%20Date()%20to,the%20current%20date%20and%20time.&text=This%20will%20give%20you%20today's,to%20whatever%20format%20you%20wish.
+
+Referenced to help with inputting the date variable into fetch for gameday info
+    - https://stackoverflow.com/questions/50983150/how-to-pass-a-variable-with-url-on-javascript-fetch-method
+
