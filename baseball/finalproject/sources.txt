@@ -6,3 +6,6 @@ Referenced to help format the date using javascript
 Referenced to help with inputting the date variable into fetch for gameday info
     - https://stackoverflow.com/questions/50983150/how-to-pass-a-variable-with-url-on-javascript-fetch-method
 
+Referenced to help with installing and using jquery
+    - https://stackoverflow.com/questions/12031825/how-to-set-up-django-website-with-jquery
+

@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log(games[index].game_time_local);
 
             const div_element = document.createElement('div');
+            div_element.className = "test";
             div_element.innerHTML = `${games[index].home_team_full} vs. ${games[index].away_team_full} at ${games[index].game_time_local}`;
             document.getElementById("game").appendChild(div_element);
         }
