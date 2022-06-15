@@ -9,3 +9,7 @@ Referenced to help with inputting the date variable into fetch for gameday info
 Referenced to help with installing and using jquery
     - https://stackoverflow.com/questions/12031825/how-to-set-up-django-website-with-jquery
 
+Referecned to help insall Owl Carousel
+    - https://owlcarousel2.github.io/OwlCarousel2/demos/basic.html
+
+    
