@@ -1,10 +1,23 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
-import requests
+from newsapi import NewsApiClient
+
+import requests, json
 
 def index(request):
 
-    context = {}
+    # Get MLB news articles using News API
+    newsapi = NewsApiClient(api_key='093cee10911e400eb1a2c2d6e778e43c') # NEED TO HIDE MY API KEY
+
+    # Get 10 latest articles pertaining to MLB
+    all_articles = newsapi.get_everything(
+        q='(baseball OR MLB) NOT (college OR betting OR soccer)',
+        domains='mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com',
+        sort_by='publishedAt',
+        page_size=10
+    )
+
+    context = {'all_articles':all_articles}
 
     return render(request, "baseball/index.html", context)

@@ -12,4 +12,6 @@ Referenced to help with installing and using jquery
 Referecned to help insall Owl Carousel
     - https://owlcarousel2.github.io/OwlCarousel2/demos/basic.html
 
-    
+Referecned to help with Bootstrap NavBar
+    - https://getbootstrap.com/docs/5.2/components/navbar/
+

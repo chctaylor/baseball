@@ -11,33 +11,6 @@ h4 {
     color: green;
 }
 
-/* Games Carousel */
-/* @media (min-width: 768px) {
-    .carousel-inner {
-      display: flex;
-    }
-    .carousel-item {
-      margin-right: 0;
-      flex: 0 0 5%;
-      display: flex;
-    }
+#owl-carousel {
+    background-color: rgb(247, 248, 249)
 }
-
-.carousel-inner{
-    padding: 1em;
-}
-
-.card{
-    margin: 0 .5em;
-    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-    border: none;
-}
-
-.carousel-control-prev, .carousel-control-next{
-    background-color: #e1e1e1;
-    width: 2.5vh;
-    height: 2.5vh;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-} */
