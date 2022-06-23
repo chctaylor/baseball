@@ -41,26 +41,167 @@
             </div>
             <div class="col">
                 <h1 style="text-decoration: underline;">Stats & More</h1>
-                <!-- REPLACE WITH LEADER BOARDS AND TRANSACTIONS -->
-                {% for article in all_articles.articles %}
-                <div class="card mb-3" style="max-width: 540px;">
-                    <img src="{{ article.urlToImage }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{{ article.url }}" style="text-decoration: none; color: inherit;">{{ article.title }}</a></h5>
-                        <p class="card-text">{{ article.description }}</p>
-                        {% if article.source.name == "ESPN" %}
-                            <a href="{{ article.url }}"><img src="http://a.espncdn.com/i/apis/attribution/espn-black_50.png"></a>
-                        {% else %}
-                            <p class="card-text"><small class="text-muted">Source: {{ article.source.name }}</small></p>
-                        {% endif %}
+                
+                <!-- Hitting Leaders -->
+                <h3 style="text-align: center;">Hitting Leaders</h3>
+
+                <!-- Bootstrap Accordion -->
+
+                <div class="accordion" id="hitting_leaders">
+                    <!-- Home Run Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                Home Runs (HR)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <ol id="hitting_leaders_hr">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RBI Leaders-->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                Runs Batted In (RBI)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <ol id="hitting_leaders_rbi">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Batting Avg Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                Batting Average (AVG)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body">
+                                <ol id="hitting_leaders_avg">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Runs Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                                Runs (R)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                            <div class="accordion-body">
+                                <ol id="hitting_leaders_r">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hits Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                                Hits (H)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                            <div class="accordion-body">
+                                <ol id="hitting_leaders_h">
+                                </ol>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
-                <!-- END REPLACEMENT -->
+                <br>
+
+                <!-- Pitching Leaders -->
+                <h3 style="text-align: center;">Pitching Leaders</h3>
+
+                <div class="accordion" id="pitching_leaders">
+                    <!-- Strike Out Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
+                                Strike Outs (K)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSix">
+                            <div class="accordion-body">
+                                <ol id="pitching_leaders_so">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wins Leaders-->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
+                                Wins (W)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSeven">
+                            <div class="accordion-body">
+                                <ol id="pitching_leaders_w">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Earned Run Average Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingEight">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false" aria-controls="panelsStayOpen-collapseEight">
+                                Earned Run Average (ERA)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingEight">
+                            <div class="accordion-body">
+                                <ol id="pitching_leaders_era">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- WHIP Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingNine">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="false" aria-controls="panelsStayOpen-collapseNine">
+                                WHIP
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingNine">
+                            <div class="accordion-body">
+                                <ol id="pitching_leaders_whip">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Quality Starts Leaders -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTen">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="false" aria-controls="panelsStayOpen-collapseTen">
+                                Quality Starts (qs)
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTen">
+                            <div class="accordion-body">
+                                <ol id="pitching_leaders_qs">
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
     
-    
+    <script src="{% static 'baseball/index.js' %}"></script>
+
 {% endblock %}
 

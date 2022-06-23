@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     today = yyyy + mm + dd;
 
-    fetch(`http://lookup-service-prod.mlb.com/json/named.mlb_broadcast_info.bam?src_type='TV'&tcid=mm_mlb_schedule&sort_by='game_time_et_asc'&home_away='H'&start_date='${today}'&end_date='${today}'&season='2022'`)
+    fetch(`http://lookup-service-prod.mlb.com/json/named.mlb_broadcast_info.bam?src_type='TV'&tcid=mm_mlb_schedule&home_away='H'&start_date='${today}'&end_date='${today}'&season='${yyyy}'`)
     .then(response => response.json())
     .then(data => {
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var game_time = games[index].game_time_local;
             var day = game_time.split('T')
 
-            // Test for duplicates and create game card
+            // Test for duplicates and create game card * IF GAME NOT NEXT EACHOTHER DOES NOT CATCH
             try {
                 if (games[index].home_team_full == games[index+1].home_team_full) continue;
                 create_owl_carousel_item(day[1].slice(0,5), games[index].away_team_full, games[index].home_team_full);
