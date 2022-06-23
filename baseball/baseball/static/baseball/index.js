@@ -88,6 +88,20 @@ function create_qs_leaders (player_name, player_team, qs_stat) {
     document.getElementById("pitching_leaders_qs").appendChild(player_info_li)
 }
 
+// Create elements for Recent Transaction History
+function create_transaction_item (team_name, player_name, note_details) {
+    const team_player_info = document.createElement('h5');
+    const transaction_note = document.createElement('div');
+    const divider = document.createElement('hr');
+
+    team_player_info.innerHTML = `${team_name} - ${player_name}`;
+    transaction_note.innerHTML = `${note_details}`;
+
+    document.getElementById("transactions").appendChild(team_player_info);
+    document.getElementById("transactions").appendChild(transaction_note);
+    document.getElementById("transactions").appendChild(divider);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Retrieve todays date and Leader data
     var today = new Date();
@@ -215,6 +229,20 @@ document.addEventListener('DOMContentLoaded', function() {
         for (index = 0; index < qs_pitching_leader.length; index++) {
             create_qs_leaders(qs_pitching_leader[index].name_display_first_last, qs_pitching_leader[index].team_abbrev, qs_pitching_leader[index].qs)
         }
+    });
+
+    // Retrieve Transaction Data *** NEED TO FIGURE OUT HOW TO DO YESTERDAYS DATE
+    fetch(`http://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='20220621'&end_date='20220621'`)
+    .then(response => response.json())
+    .then(data => {
+
+        const recent_transactions = data.transaction_all.queryResults.row
+
+        for (index = 0; index < 10; index++) {
+            create_transaction_item(recent_transactions[index].team, recent_transactions[index].name_display_first_last, recent_transactions[index].note)
+        }
+
+        console.log(recent_transactions);
     });
 
     

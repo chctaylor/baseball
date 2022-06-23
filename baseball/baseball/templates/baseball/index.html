@@ -24,6 +24,7 @@
         <div class="row">
             <div class="col-8">
                 <h1 style="text-decoration: underline;">News & Media</h1>
+                <br>
                 {% for article in all_articles.articles %}
                 <div class="card mb-3" style="max-width: 540px;">
                     <img src="{{ article.urlToImage }}" class="card-img-top" alt="...">
@@ -41,7 +42,8 @@
             </div>
             <div class="col">
                 <h1 style="text-decoration: underline;">Stats & More</h1>
-                
+                <br>
+
                 <!-- Hitting Leaders -->
                 <h3 style="text-align: center;">Hitting Leaders</h3>
 
@@ -196,7 +198,14 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 
+                <!-- Transaction Data -->
+                <h3 style="text-align: center;">Recent Transactions</h3>
+                <div class="card">
+                    <div class="card-body" id="transactions">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
