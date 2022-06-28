@@ -6,3 +6,11 @@ h1 {
 #owl-carousel {
     background-color: rgb(247, 248, 249)
 }
+
+#team-info, #player-info {
+    cursor: pointer;
+}
+
+#team-info:hover, #player-info:hover {
+    text-decoration: underline;
+}

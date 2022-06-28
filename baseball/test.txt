@@ -1,0 +1,101 @@
+from django.db import migrations
+
+def team_info(apps, schema_editor):
+
+    // Team Name, Team ID, Division, Team Abreviation
+    teams = [
+        ("Baltimore Orioles", "110", "AL East", "BAL"),
+        ("Boston Red Sox", "111", "AL East", "BOS"),
+        ("New York Yankees", "147", "AL East", "NYY"),
+        ("Tampa Bay Rays", "139", "AL East", "TB"),
+        ("Toronto Blue Jays", "141", "AL East", "TOR"),
+
+        ("Chicago White Sox", "145", "AL Central", "CWS"),
+        ("Cleveland Guardians", "114", "AL Central", "CLE"),
+        ("Detroit Tigers", "116", "AL Central", "DET"),
+        ("Kansas City Royals", "118", "AL Central", "KC"),
+        ("Minnesota Twins", "142", "AL Central", "MIN"),
+
+        ("Houston Astros", "117", "AL West", "HOU"),
+        ("Los Angeles Angels", "108", "AL West", "LAA"),
+        ("Oakland Athletics", "133", "AL West", "OAK"),
+        ("Seattle Mariners", "136", "AL West", "SEA"),
+        ("Texas Rangers", "140", "AL West", "TEX"),
+
+        ("Atlanta Braves", "144", "NL East", "ATL"),
+        ("Miami Marlins", "146", "NL East", "MIA"),
+        ("New York Mets", "121", "NL East", "NYM"),
+        ("Philadelphia Phillies", "143", "NL East", "PHI"),
+        ("Washington Nationals", "120", "NL East", "WSH"),
+
+        ("Chicago Cubs", "112", "NL Central", "CHC"),
+        ("Cincinnati Reds", "113", "NL Central", "CIN"),
+        ("Milwaukee Brewers", "158", "NL Central", "MIL"),
+        ("Pittsburgh Pirates", "134", "NL Central", "PIT"),
+        ("St. Louis Cardinals", "138", "NL Central", "STL"),
+
+        ("Arizona Diamondbacks", "109", "NL West", "ARI"),
+        ("Colorado Rockies", "115", "NL West", "COL"),
+        ("Los Angeles Dodgers", "119", "NL West", "LAD"),
+        ("San Diego Padres", "135", "NL West", "SD"),
+        ("San Francisco Giants", "137", "NL West", "SF"),
+
+    ]
+
+def team_twitter_info(apps, schema_editor):
+
+    // Team Name, Team ID, Twitter Handle 1, Twitter Handle 2
+    teams = [
+        ("Baltimore Orioles", "110", "Orioles", "masnOrioles"),
+        ("Boston Red Sox", "111", "RedSox", "redsoxstats"),
+        ("New York Yankees", "147", "Yankees", "BronxPinstripes"),
+        ("Tampa Bay Rays", "139", "RaysBaseball", "TBTimes_Rays"),
+        ("Toronto Blue Jays", "141", "BlueJays", "BlueJayHunter"),
+
+        ("Chicago White Sox", "145", "whitesox", "NBCSWhiteSox"),
+        ("Cleveland Guardians", "114", "CleGuardians", "GuardiansTalk"),
+        ("Detroit Tigers", "116", "tigers", "DetroitTigersPR"),
+        ("Kansas City Royals", "118", "Royals", "royalsreview"),
+        ("Minnesota Twins", "142", "Twins", "TwinsFansUK"),
+
+        ("Houston Astros", "117", "astros", "CrawfishBoxes"),
+        ("Los Angeles Angels", "108", "Angels", "JeffFletcherOCR"),
+        ("Oakland Athletics", "133", "Athletics", "NBCSAthletics"),
+        ("Seattle Mariners", "136", "Mariners", "MarinersPR"),
+        ("Texas Rangers", "140", "Rangers", "TXRangersPR"),
+
+        ("Atlanta Braves", "144", "Braves", "Braves30YrsAgo"),
+        ("Miami Marlins", "146", "Marlins", "fishstripes"),
+        ("New York Mets", "121", "Mets", "NYMhistory"),
+        ("Philadelphia Phillies", "143", "Phillies", "PhilliesNation"),
+        ("Washington Nationals", "120", "Nationals", "NBCSNationals"),
+
+        ("Chicago Cubs", "112", "Cubs", "CubbiesOnTap"),
+        ("Cincinnati Reds", "113", "Reds", "redreporter"),
+        ("Milwaukee Brewers", "158", "Brewers", "ReviewingTheBrew"),
+        ("Pittsburgh Pirates", "134", "Pirates", "AlexJStumpf"),
+        ("St. Louis Cardinals", "138", "Cardinals", "stl_baseball"),
+
+        ("Arizona Diamondbacks", "109", "Dbacks", "nickpiecoro"),
+        ("Colorado Rockies", "115", "Rockies", "RoxPileFS"),
+        ("Los Angeles Dodgers", "119", "Dodgers", "DodgerBlue1958"),
+        ("San Diego Padres", "135", "Padres", "sdutKevinAcee"),
+        ("San Francisco Giants", "137", "SFGiants", "NBCSGiants"),
+
+    ]
+
+    TeamTwitter = apps.get_model('baseball', 'TeamTwitter')
+    for t in teams:
+        team = TeamTwitter()
+        team.name_display_full = t[0]
+        team.team_id = t[1]
+        team.twitter_handle_one = t[2]
+        team.twitter_handle_two = t[3]
+        team.save()
+
+// Model 
+class TeamTwitter(models.Model)
+    name_display_full = models.CharField(null=True)
+    team_id = models.CharField(null=True)
+    twitter_handle_one = models.CharField(null=True)
+    twitter_handle_two = models.CharField(null=True)

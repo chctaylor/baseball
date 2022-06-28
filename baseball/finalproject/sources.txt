@@ -9,9 +9,15 @@ Referenced to help with inputting the date variable into fetch for gameday info
 Referenced to help with installing and using jquery
     - https://stackoverflow.com/questions/12031825/how-to-set-up-django-website-with-jquery
 
-Referecned to help insall Owl Carousel
+Referenced to help insall Owl Carousel
     - https://owlcarousel2.github.io/OwlCarousel2/demos/basic.html
 
-Referecned to help with Bootstrap NavBar
+Referenced to help with Bootstrap NavBar
     - https://getbootstrap.com/docs/5.2/components/navbar/
+
+Referenced to help get yesterdays date for MLB transaction info
+    - https://stackoverflow.com/questions/5511323/calculate-the-date-yesterday-in-javascript
+
+Referenced to help with adding text between two elements in javascript
+    - https://bobbyhadz.com/blog/javascript-append-text-to-element#:~:text=Use%20the%20appendChild()%20method,the%20element's%20list%20of%20children.
 

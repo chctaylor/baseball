@@ -21,3 +21,19 @@ def index(request):
     context = {'all_articles':all_articles}
 
     return render(request, "baseball/index.html", context)
+
+
+def team_view(request):
+
+    context = {}
+
+    return render(request, "baseball/team.html", context)
+
+
+def player_view(request, pk):
+
+    pk = "brandon"
+
+    context = {}
+
+    return render(request, "baseball/player.html", context)
