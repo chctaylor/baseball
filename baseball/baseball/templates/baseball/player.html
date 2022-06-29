@@ -3,7 +3,245 @@
 {% load static %}
 
 {% block body %}
-    INSERT PLAYER NAME HERE 
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-1">
+                    {{ player.name_display_first_last }}
+                </h1>
+                <br>
+                <!-- Display player Bio information -->
+                <h2>Bio</h2>
+                <div class="card">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Team:</dt>
+                                    <dd class="col-8">{{ player.team_full }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Position:</dt>
+                                    <dd class="col-8">{{ player.position }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Jersey #:</dt>
+                                    <dd class="col-8">{{ player_info.jersey_number }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Age:</dt>
+                                    <dd class="col-8">{{ player_info.age }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Height:</dt>
+                                    <dd class="col-8">{{ player.height_feet }}'{{ player.height_inches }}"</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Weight:</dt>
+                                    <dd class="col-8">{{ player.weight }} ILBS</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">AKA:</dt>
+                                    <dd class="col-8">{{ player_info.name_nick }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Pro Debut:</dt>
+                                    <dd class="col-8">{{ player.pro_debut_date }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <!-- Display High School if no College -->
+                                    {% if player.college != "" %}
+                                        <dt class="col">College:</dt>
+                                        <dd class="col-8">{{ player.college }}</dd>
+                                    {% else %}
+                                        <dt class="col">High School:</dt>
+                                        <dd class="col-8">{{ player.high_school }}</dd>
+                                    {% endif %}
+                                </dl>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- Display Hitting Stats for non pitchers -->
+        {% if player.position != "P" %}
+            <div class="row">
+                <div class="col">
+                    <h2>Season Hitting Stats</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Season</th>
+                                        <th scope="col">AB</th>
+                                        <th scope="col">R</th>
+                                        <th scope="col">H</th>
+                                        <th scope="col">HR</th>
+                                        <th scope="col">RBI</th>
+                                        <th scope="col">AVG</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                    <tr>
+                                        <th scope="row">{{ season_hitting_stats.season }}</th>
+                                        <td>{{ season_hitting_stats.ab }}</td>
+                                        <td>{{ season_hitting_stats.r }}</td>
+                                        <td>{{ season_hitting_stats.h }}</td>
+                                        <td>{{ season_hitting_stats.hr }}</td>
+                                        <td>{{ season_hitting_stats.rbi }}</td>
+                                        <td>{{ season_hitting_stats.avg }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h2>Career Hitting Stats</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Career</th>
+                                        <th scope="col">AB</th>
+                                        <th scope="col">R</th>
+                                        <th scope="col">H</th>
+                                        <th scope="col">HR</th>
+                                        <th scope="col">RBI</th>
+                                        <th scope="col">AVG</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>{{ career_hitting_stats.ab }}</td>
+                                        <td>{{ career_hitting_stats.r }}</td>
+                                        <td>{{ career_hitting_stats.h }}</td>
+                                        <td>{{ career_hitting_stats.hr }}</td>
+                                        <td>{{ career_hitting_stats.rbi }}</td>
+                                        <td>{{ career_hitting_stats.avg }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- Display Pitching stats for pitchers -->
+        {% else %}
+            <div class="row">
+                <div class="col">
+                    <h2>Season Pitching Stats</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Season</th>
+                                        <th scope="col">W</th>
+                                        <th scope="col">L</th>
+                                        <th scope="col">ERA</th>
+                                        <th scope="col">IP</th>
+                                        <th scope="col">SO</th>
+                                        <th scope="col">WHIP</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                    <tr>
+                                        <th scope="row">{{ season_pitching_stats.season }}</th>
+                                        <td>{{ season_pitching_stats.w }}</td>
+                                        <td>{{ season_pitching_stats.l }}</td>
+                                        <td>{{ season_pitching_stats.era }}</td>
+                                        <td>{{ season_pitching_stats.ip }}</td>
+                                        <td>{{ season_pitching_stats.so }}</td>
+                                        <td>{{ season_pitching_stats.whip }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h2>Career Pitching Stats</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Career</th>
+                                        <th scope="col">W</th>
+                                        <th scope="col">L</th>
+                                        <th scope="col">ERA</th>
+                                        <th scope="col">IP</th>
+                                        <th scope="col">SO</th>
+                                        <th scope="col">WHIP</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>{{ career_pitching_stats.w }}</td>
+                                        <td>{{ career_pitching_stats.l }}</td>
+                                        <td>{{ career_pitching_stats.era }}</td>
+                                        <td>{{ career_pitching_stats.ip }}</td>
+                                        <td>{{ career_pitching_stats.so }}</td>
+                                        <td>{{ career_pitching_stats.whip }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 
     <script>
         const url = new URL(window.location.href);

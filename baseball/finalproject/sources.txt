@@ -21,3 +21,6 @@ Referenced to help get yesterdays date for MLB transaction info
 Referenced to help with adding text between two elements in javascript
     - https://bobbyhadz.com/blog/javascript-append-text-to-element#:~:text=Use%20the%20appendChild()%20method,the%20element's%20list%20of%20children.
 
+Referenced to help with parsing through json resoponse in python
+    - https://pynative.com/parse-json-response-using-python-requests-library/
+    

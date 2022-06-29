@@ -12,7 +12,7 @@ def index(request):
 
     # Get 10 latest articles pertaining to MLB
     all_articles = newsapi.get_everything(
-        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga)',
+        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis)',
         domains='mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com',
         sort_by='publishedAt',
         page_size=10
@@ -32,8 +32,77 @@ def team_view(request):
 
 def player_view(request, pk):
 
-    pk = "brandon"
+    # Search player from MLB API
+    url_player_search = "http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code='mlb'&active_sw='Y'&name_part='" + pk + "'"
 
-    context = {}
+    payload = {}
+    headers = {}
+
+    player_search_response = requests.request("GET", url_player_search, headers=headers, data=payload)
+    json_player_search_response = player_search_response.json()
+    
+    # Parse json response for player search to simplify HTML
+    player = json_player_search_response["search_player_all"]["queryResults"]["row"]
+
+    # Search player info from MLB API via the player id
+    player_id = json_player_search_response["search_player_all"]["queryResults"]["row"]["player_id"]
+
+    url_player_info = "http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='" + player_id + "'"
+
+    payload = {}
+    headers = {}
+
+    player_info_response = requests.request("GET", url_player_info, headers=headers, data=payload)
+    json_player_info_response = player_info_response.json()
+
+    # Parse json response for player info to simplify HTML
+    player_info = json_player_info_response["player_info"]["queryResults"]["row"]
+
+    # Search Player Season and Career Stats
+    url_season_hitting = "http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='2022'&player_id='" + player_id + "'"
+    url_career_hitting = "http://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='" + player_id + "'"
+
+    url_season_pitching = "http://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='2022'&player_id='" + player_id + "'"
+    url_career_pitching = "http://lookup-service-prod.mlb.com/json/named.sport_career_pitching.bam?league_list_id='mlb'&game_type='R'&player_id='" + player_id + "'"
+
+    payload = {}
+    headers = {}
+
+    # Create variables to pass to HTML depending on current player position
+    player_position = json_player_search_response["search_player_all"]["queryResults"]["row"]["position"]
+    season_hitting_stats = None
+    career_hitting_stats = None
+    season_pitching_stats = None
+    career_pitching_stats = None
+
+    
+    # Get the season/career stats based on current player position
+    if player_position != "P":
+        season_hitting_response = requests.request("GET", url_season_hitting, headers=headers, data=payload)
+        career_hitting_response = requests.request("GET", url_career_hitting, headers=headers, data=payload)
+        json_season_hitting_response = season_hitting_response.json()
+        json_career_hitting_response = career_hitting_response.json()
+        
+        season_hitting_stats = json_season_hitting_response["sport_hitting_tm"]["queryResults"]["row"]
+        career_hitting_stats = json_career_hitting_response["sport_career_hitting"]["queryResults"]["row"]
+    else:
+        season_pitching_response = requests.request("GET", url_season_pitching, headers=headers, data=payload)
+        career_pitching_response = requests.request("GET", url_career_pitching, headers=headers, data=payload)
+        json_season_pitching_response = season_pitching_response.json()
+        json_career_pitching_response = career_pitching_response.json()
+
+        season_pitching_stats = json_season_pitching_response["sport_pitching_tm"]["queryResults"]["row"]
+        career_pitching_stats = json_career_pitching_response["sport_career_pitching"]["queryResults"]["row"]
+        
+
+    # Variables for HTML
+    context = {
+        "player": player, 
+        "player_info": player_info, 
+        "season_hitting_stats": season_hitting_stats,
+        "career_hitting_stats": career_hitting_stats,
+        "season_pitching_stats": season_pitching_stats,
+        "career_pitching_stats": career_pitching_stats,
+    }
 
     return render(request, "baseball/player.html", context)

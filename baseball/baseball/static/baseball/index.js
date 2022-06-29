@@ -2,7 +2,9 @@
 function create_hr_leaders (player_name, player_team, hr_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -22,7 +24,9 @@ function create_hr_leaders (player_name, player_team, hr_stat) {
 function create_rbi_leaders (player_name, player_team, rbi_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -42,7 +46,9 @@ function create_rbi_leaders (player_name, player_team, rbi_stat) {
 function create_avg_leaders (player_name, player_team, avg_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -62,7 +68,9 @@ function create_avg_leaders (player_name, player_team, avg_stat) {
 function create_r_leaders (player_name, player_team, r_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -82,7 +90,9 @@ function create_r_leaders (player_name, player_team, r_stat) {
 function create_h_leaders (player_name, player_team, h_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -102,7 +112,9 @@ function create_h_leaders (player_name, player_team, h_stat) {
 function create_so_leaders (player_name, player_team, so_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -122,7 +134,9 @@ function create_so_leaders (player_name, player_team, so_stat) {
 function create_w_leaders (player_name, player_team, w_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -142,7 +156,9 @@ function create_w_leaders (player_name, player_team, w_stat) {
 function create_era_leaders (player_name, player_team, era_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -162,7 +178,9 @@ function create_era_leaders (player_name, player_team, era_stat) {
 function create_whip_leaders (player_name, player_team, whip_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -182,7 +200,9 @@ function create_whip_leaders (player_name, player_team, whip_stat) {
 function create_qs_leaders (player_name, player_team, qs_stat) {
     const player_info_li = document.createElement('li');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
 
     team_info.setAttribute('id', 'team-info');
     player_info.setAttribute('id', 'player-info');
@@ -202,7 +222,10 @@ function create_qs_leaders (player_name, player_team, qs_stat) {
 function create_transaction_item (team_name, player_name, note_details) {
     const team_player_info = document.createElement('h5');
     const team_info = document.createElement('span');
-    const player_info = document.createElement('span');
+    const player_info = document.createElement('a');
+
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
+
     const transaction_note = document.createElement('div');
     const divider = document.createElement('hr');
 

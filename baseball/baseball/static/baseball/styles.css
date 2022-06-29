@@ -1,16 +1,26 @@
-/* TESTING */
-h1 {
-    color: green;
-}
-
+/* Display games */
 #owl-carousel {
     background-color: rgb(247, 248, 249)
 }
 
+/* Players and Teams */
 #team-info, #player-info {
     cursor: pointer;
 }
 
 #team-info:hover, #player-info:hover {
     text-decoration: underline;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+
+dt, dd {
+    font-size: 21px;
 }
