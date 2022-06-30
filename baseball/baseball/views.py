@@ -12,7 +12,7 @@ def index(request):
 
     # Get 10 latest articles pertaining to MLB
     all_articles = newsapi.get_everything(
-        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis)',
+        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf)',
         domains='mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com',
         sort_by='publishedAt',
         page_size=10
@@ -41,8 +41,14 @@ def player_view(request, pk):
     player_search_response = requests.request("GET", url_player_search, headers=headers, data=payload)
     json_player_search_response = player_search_response.json()
     
-    # Parse json response for player search to simplify HTML
-    player = json_player_search_response["search_player_all"]["queryResults"]["row"]
+    print(json_player_search_response["search_player_all"]["queryResults"]['totalSize'])
+
+    # Check and then Parse json response for player search to simplify HTML
+    if json_player_search_response["search_player_all"]["queryResults"]['totalSize'] == "0":
+        return HttpResponse("We apologize, but there seems to be no data for " + pk + " via the MLB API")
+    else:
+        player = json_player_search_response["search_player_all"]["queryResults"]["row"]
+
 
     # Search player info from MLB API via the player id
     player_id = json_player_search_response["search_player_all"]["queryResults"]["row"]["player_id"]
@@ -93,7 +99,21 @@ def player_view(request, pk):
 
         season_pitching_stats = json_season_pitching_response["sport_pitching_tm"]["queryResults"]["row"]
         career_pitching_stats = json_career_pitching_response["sport_career_pitching"]["queryResults"]["row"]
-        
+
+    # Get 4 latest articles pertaining to MLB
+    url_player_news = "https://newsapi.org/v2/everything?domains=mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com&sortBy=publishedAt&searchIn=title,description&pageSize=4&q=" + player["name_display_first_last"] + ""
+
+    payload={}
+    headers = {
+    'X-Api-Key': '093cee10911e400eb1a2c2d6e778e43c' # NEED TO HIDE MY API KEY
+    }
+
+    player_news_response = requests.request("GET", url_player_news, headers=headers, data=payload)
+    json_player_news_response = player_news_response.json()
+
+    # Simplify for HTML
+    player_news = json_player_news_response
+ 
 
     # Variables for HTML
     context = {
@@ -103,6 +123,7 @@ def player_view(request, pk):
         "career_hitting_stats": career_hitting_stats,
         "season_pitching_stats": season_pitching_stats,
         "career_pitching_stats": career_pitching_stats,
+        "player_news": player_news,
     }
 
     return render(request, "baseball/player.html", context)
