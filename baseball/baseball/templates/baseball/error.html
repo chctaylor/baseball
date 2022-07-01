@@ -1,0 +1,22 @@
+{% extends "baseball/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="display-1">
+                {{ pk }}
+            </h1>
+            <br>
+            <div style="text-align: center;">
+                <img src="https://i.giphy.com/media/243UHkbIOZJGj7FZ84/giphy.webp">
+            </div>
+            <br>
+            <h1 style="text-align: center;">We apologize, but there is no data on this player in the MLB API</h1>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -121,7 +121,7 @@
                                         <th scope="col">AVG</th>
                                     </tr>
                                     </thead>
-                                    <tbody class="table-group-divider">
+                                    <tbody class="table-group-divider" id="season-hitting-stats">
                                     <tr>
                                         <th scope="row">{{ season_hitting_stats.season }}</th>
                                         <td>{{ season_hitting_stats.ab }}</td>
@@ -190,7 +190,7 @@
                                         <th scope="col">WHIP</th>
                                     </tr>
                                     </thead>
-                                    <tbody class="table-group-divider">
+                                    <tbody class="table-group-divider" id="season-pitching-stats">
                                     <tr>
                                         <th scope="row">{{ season_pitching_stats.season }}</th>
                                         <td>{{ season_pitching_stats.w }}</td>
@@ -277,9 +277,5 @@
         <br>
     </div>
 
-    <script>
-        const url = new URL(window.location.href);
-
-        console.log(url.pathname);
-    </script>
+    <script src="{% static 'baseball/player.js' %}"></script>
 {% endblock %}

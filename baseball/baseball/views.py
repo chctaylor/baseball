@@ -40,12 +40,10 @@ def player_view(request, pk):
 
     player_search_response = requests.request("GET", url_player_search, headers=headers, data=payload)
     json_player_search_response = player_search_response.json()
-    
-    print(json_player_search_response["search_player_all"]["queryResults"]['totalSize'])
 
     # Check and then Parse json response for player search to simplify HTML
     if json_player_search_response["search_player_all"]["queryResults"]['totalSize'] == "0":
-        return HttpResponse("We apologize, but there seems to be no data for " + pk + " via the MLB API")
+        return render(request, "baseball/error.html", {'pk': pk})
     else:
         player = json_player_search_response["search_player_all"]["queryResults"]["row"]
 
