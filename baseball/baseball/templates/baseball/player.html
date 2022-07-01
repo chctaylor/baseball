@@ -109,10 +109,11 @@
                     <h2>Season Hitting Stats</h2>
                     <div class="card">
                         <div class="card-body">
-                            <table class="table">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">Season</th>
+                                        <th scope="col">Team</th>
                                         <th scope="col">AB</th>
                                         <th scope="col">R</th>
                                         <th scope="col">H</th>
@@ -124,6 +125,7 @@
                                     <tbody class="table-group-divider" id="season-hitting-stats">
                                     <tr>
                                         <th scope="row">{{ season_hitting_stats.season }}</th>
+                                        <td>{{ season_hitting_stats.team_abbrev }}</td>
                                         <td>{{ season_hitting_stats.ab }}</td>
                                         <td>{{ season_hitting_stats.r }}</td>
                                         <td>{{ season_hitting_stats.h }}</td>
@@ -178,10 +180,11 @@
                     <h2>Season Pitching Stats</h2>
                     <div class="card">
                         <div class="card-body">
-                            <table class="table">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">Season</th>
+                                        <th scope="col">Team</th>
                                         <th scope="col">W</th>
                                         <th scope="col">L</th>
                                         <th scope="col">ERA</th>
@@ -193,6 +196,7 @@
                                     <tbody class="table-group-divider" id="season-pitching-stats">
                                     <tr>
                                         <th scope="row">{{ season_pitching_stats.season }}</th>
+                                        <td>{{ season_pitching_stats.team_abbrev }}</td>
                                         <td>{{ season_pitching_stats.w }}</td>
                                         <td>{{ season_pitching_stats.l }}</td>
                                         <td>{{ season_pitching_stats.era }}</td>

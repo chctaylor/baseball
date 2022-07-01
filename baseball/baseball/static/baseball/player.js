@@ -1,6 +1,7 @@
-function create_season_hitting_stats (season_stat, ab_stat, r_stat, h_stat, hr_stat, rbi_stat, avg_stat) {
+function create_season_hitting_stats (season_stat, season_team, ab_stat, r_stat, h_stat, hr_stat, rbi_stat, avg_stat) {
     // Create table elements for season hitting stats
     const season_th = document.createElement('th');
+    const team_td = document.createElement('td');
     const ab_td = document.createElement('td');
     const r_td = document.createElement('td');
     const h_td = document.createElement('td');
@@ -12,6 +13,7 @@ function create_season_hitting_stats (season_stat, ab_stat, r_stat, h_stat, hr_s
     hitting_stat_tr.setAttribute("scope", "row");
 
     hitting_stat_tr.appendChild(season_th);
+    hitting_stat_tr.appendChild(team_td);
     hitting_stat_tr.appendChild(ab_td);
     hitting_stat_tr.appendChild(r_td);
     hitting_stat_tr.appendChild(h_td);
@@ -21,6 +23,7 @@ function create_season_hitting_stats (season_stat, ab_stat, r_stat, h_stat, hr_s
 
     // Set elements data
     season_th.innerHTML = `${season_stat}`;
+    team_td.innerHTML = `${season_team}`;
     ab_td.innerHTML = `${ab_stat}`;
     r_td.innerHTML = `${r_stat}`;
     h_td.innerHTML = `${h_stat}`;
@@ -32,9 +35,10 @@ function create_season_hitting_stats (season_stat, ab_stat, r_stat, h_stat, hr_s
 
 }
 
-function create_season_pitching_stats (season_stat, w_stat, l_stat, era_stat, ip_stat, so_stat, whip_stat) {
+function create_season_pitching_stats (season_stat, season_team, w_stat, l_stat, era_stat, ip_stat, so_stat, whip_stat) {
     // Create table elements for season pitching stats
     const season_th = document.createElement('th');
+    const team_td = document.createElement('td');
     const w_td = document.createElement('td');
     const l_td = document.createElement('td');
     const era_td = document.createElement('td');
@@ -46,6 +50,7 @@ function create_season_pitching_stats (season_stat, w_stat, l_stat, era_stat, ip
     pitching_stat_tr.setAttribute("scope", "row");
 
     pitching_stat_tr.appendChild(season_th);
+    pitching_stat_tr.appendChild(team_td);
     pitching_stat_tr.appendChild(w_td);
     pitching_stat_tr.appendChild(l_td);
     pitching_stat_tr.appendChild(era_td);
@@ -55,6 +60,7 @@ function create_season_pitching_stats (season_stat, w_stat, l_stat, era_stat, ip
 
     // Set elements data
     season_th.innerHTML = `${season_stat}`;
+    team_td.innerHTML = `${season_team}`;
     w_td.innerHTML = `${w_stat}`;
     l_td.innerHTML = `${l_stat}`;
     era_td.innerHTML = `${era_stat}`;
@@ -122,11 +128,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
 
                         console.log(data);
+                        
+                        // SERGIO ROMO PROBLEM: If totalSize > 1, get totalSize, for i < totalSize, season_pitching_data[i], create
+                        if (data.sport_hitting_tm.queryResults.totalSize > 1) {
+                            for (index = 0; index < data.sport_hitting_tm.queryResults.totalSize; index++) {
 
-                        season_hitting_data = data.sport_hitting_tm.queryResults.row;
-                        console.log(season_hitting_data);
+                                season_hitting_data = data.sport_hitting_tm.queryResults.row[index];
 
-                        create_season_hitting_stats(season_hitting_data.season, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg)
+                                create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
+
+                            }
+                        }
+                        else {
+                            season_hitting_data = data.sport_hitting_tm.queryResults.row;
+
+                            create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
+                        
+                        }
+
+                        //season_hitting_data = data.sport_hitting_tm.queryResults.row;
+                        //console.log(season_hitting_data);
+
+                        //create_season_hitting_stats(season_hitting_data.season, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
                         
                     });
                 }
@@ -137,11 +160,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         console.log(data);
 
-                        season_pitching_data = data.sport_pitching_tm.queryResults.row;
-                        console.log(season_pitching_data); 
+                        // Check to see if player has been on multiple teams in a single season
+                        if (data.sport_pitching_tm.queryResults.totalSize > 1) {
+                            for (index = 0; index < data.sport_pitching_tm.queryResults.totalSize; index++) {
+                                console.log("Test")
+                                console.log(data.sport_pitching_tm.queryResults.row[index].season)
 
-                        create_season_pitching_stats(season_pitching_data.season, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip)
+                                season_pitching_data = data.sport_pitching_tm.queryResults.row[index];
 
+                                create_season_pitching_stats(season_pitching_data.season, season_pitching_data.team_abbrev, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip);
+
+                            }
+                        }
+                        else {
+                            season_pitching_data = data.sport_pitching_tm.queryResults.row;
+
+                            create_season_pitching_stats(season_pitching_data.season, season_pitching_data.team_abbrev, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip);
+
+                        }
                     });
                 }
             }
