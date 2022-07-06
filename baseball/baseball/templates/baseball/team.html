@@ -7,15 +7,69 @@
         <div class="row">
             <div class="col">
                 <div class="card mb-3">
-                    <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img-top" alt="Globe Life Field">
-                    <div class="card-body">
-                        <h1 class="card-title">{{ stadium }}</h1>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img" alt="Globe Life Field">
+                </div>
+                
+                <h1 class="display-1">{{ team.name_display_full }}</h1>
+                <br>
+                <!-- Display Team info -->
+                <h2>Team Info</h2>
+                <div class="card">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Venue:</dt>
+                                    <dd class="col-8">{{ team.venue_name }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Division:</dt>
+                                    <dd class="col-8">{{ team.division_full }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Phone Number:</dt>
+                                    <dd class="col-8">{{ team.phone_number }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Address:</dt>
+                                    <dd class="col-8">{{ team.address_line1 }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">City:</dt>
+                                    <dd class="col-8">{{ team.city }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">State:</dt>
+                                    <dd class="col-8">{{ team.state }}</dd>
+                                </dl>
+                            </div> 
+                        </div>
                     </div>
                 </div>
 
-                <div class="card bg-dark text-white">
+                <!-- <div class="card bg-dark text-white">
                     <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img" alt="{{ Stadium }} Stadium">
                     <div class="card-img-overlay">
                         <div class="container">
@@ -26,62 +80,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="card">
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col">Venue:</dt>
-                                    <dd class="col-8">DATA</dd>
-                                </dl>
-                            </div> 
-                        </div>
-                        <div class="col">
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col">City:</dt>
-                                    <dd class="col-8">DATA</dd>
-                                </dl>
-                            </div> 
-                        </div>
-                        <div class="col">
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col">State:</dt>
-                                    <dd class="col-8">DATA</dd>
-                                </dl>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col">Division:</dt>
-                                    <dd class="col-8">DATA</dd>
-                                </dl>
-                            </div> 
-                        </div>
-                        <div class="col">
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col">Address:</dt>
-                                    <dd class="col-8">DATA</dd>
-                                </dl>
-                            </div> 
-                        </div>
-                        <div class="col">
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col">Phone Number:</dt>
-                                    <dd class="col-8">DATA</dd>
-                                </dl>
-                            </div> 
-                        </div>
-                    </div>
-                </div> 
                 <br>
             </div>
         </div>

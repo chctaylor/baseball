@@ -3,6 +3,8 @@ from django.shortcuts import render
 
 from newsapi import NewsApiClient
 
+from .models import Teams, TeamTwitter
+
 import requests, json
 
 def index(request):
@@ -25,9 +27,30 @@ def index(request):
 
 def team_view(request, pk):
 
-    stadium = "Colorado Rockies"
+    # Get visited team name with spaces for the visited team page
+    team_name = pk
+    team_name_spaces = team_name.replace("_", " ")
+    print(team_name_spaces)
 
-    context = {'stadium':stadium}
+    # Get MLB_API_ID from database 
+    team_info = Teams.objects.get(name_display_full=team_name_spaces)
+    print(team_info.MLB_API_ID)
+
+    # Search Team from MLB API
+    url_team_search = "http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&season='2022'&team_id='" + team_info.MLB_API_ID + "'"
+    
+    payload = {}
+    headers = {}
+
+    team_search_response = requests.request("GET", url_team_search, headers=headers, data=payload)
+    json_team_search_response = team_search_response.json()
+
+    # Parse json response for team search to simplify HTML
+    team = json_team_search_response["team_all_season"]["queryResults"]["row"]
+
+    stadium = team_name_spaces
+
+    context = {'stadium':stadium, 'team':team}
 
     return render(request, "baseball/team.html", context)
 
