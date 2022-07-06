@@ -19,8 +19,19 @@ a {
 
 a:hover {
     color: black;
+    text-decoration: underline;
 }
 
 dt, dd {
     font-size: 21px;
+}
+
+/* style="color: black; background-color:rgba(219, 219, 219, 0.75); text-align: center; padding-left: 5px;" */
+
+#team-stadium {
+    color: black;
+    background-color: rgba(219, 219, 219, 0.75);
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
 }

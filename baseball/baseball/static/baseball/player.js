@@ -72,6 +72,36 @@ function create_season_pitching_stats (season_stat, season_team, w_stat, l_stat,
 
 }
 
+// Get season data based on position played
+async function get_player_season_data (season_year, player_id, player_position) {
+    if (player_position != "P") {
+        const response = await fetch(`http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${season_year}'&player_id='${player_id}'`)
+        const data = await response.json();
+        return data;
+    }
+    else {
+        const response = await fetch(`http://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${season_year}'&player_id='${player_id}'`)
+        const data = await response.json();
+        return data;
+    }
+}
+
+// Get all the seasons a player has played and get each season data
+async function get_all_player_season_data (player_id, player_debut_year, player_position) {
+    var today = new Date();
+    var yyyy = today.getFullYear();
+
+    const all_player_season_data_promises = [];
+
+    for (let index = (yyyy - 1); index >= player_debut_year; index--) {
+        const season_data_promise = get_player_season_data(index, player_id, player_position);
+        all_player_season_data_promises.push(season_data_promise);
+    }
+
+    return Promise.all(all_player_season_data_promises);
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Retrieve todays and yesterdays date and Leader data
     var today = new Date();
@@ -96,10 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var player_name = split_path[2];
     console.log(player_name);
-
+    
     fetch(`http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code='mlb'&active_sw='Y'&search_player_all.col_in=name_display_first_last&search_player_all.col_in=player_id&search_player_all.col_in=pro_debut_date&search_player_all.col_in=position&name_part='${player_name}'`)
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
         
         console.log(data);
         // Get searched player info
@@ -109,76 +139,72 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(player_data.pro_debut_date);
         // Get player debut year
         var player_debut_date = player_data.pro_debut_date;
-        var player_debut_year = player_debut_date.split('-');
-        console.log(player_debut_year[0]);
+        var player_debut_year = player_debut_date.split('-')[0];
+        console.log(player_debut_year);
 
         // Get number of years played
-        var player_years_played = yyyy - player_debut_year[0];
+        var player_years_played = yyyy - player_debut_year;
         console.log(player_years_played)
         
         // Determine player has data and search season stats for previous years based on position
         if (data.search_player_all.queryResults.totalSize > "0") {
-            for (index = (yyyy - 1); index >= player_debut_year[0]; index--) {
 
-                console.log(index);
+            const all_player_season_data = await get_all_player_season_data(player_data.player_id, player_debut_year, player_data.position);
+
+            for (let index=0; index < all_player_season_data.length; index++) {
+                
+                const season_data = all_player_season_data[index];
+                console.log(index)
 
                 if (player_data.position != "P") {
-                    fetch(`http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='${index}'&player_id='${player_data.player_id}'`)
-                    .then(response => response.json())
-                    .then(data => {
 
-                        console.log(data);
+                    console.log(season_data);
                         
-                        // SERGIO ROMO PROBLEM: If totalSize > 1, get totalSize, for i < totalSize, season_pitching_data[i], create
-                        if (data.sport_hitting_tm.queryResults.totalSize > 1) {
-                            for (index = 0; index < data.sport_hitting_tm.queryResults.totalSize; index++) {
+                    // SERGIO ROMO PROBLEM: If totalSize > 1, get totalSize, for i < totalSize, season_pitching_data[i], create
+                    if (season_data.sport_hitting_tm.queryResults.totalSize > 1) {
+                        for (let index = 0; index < season_data.sport_hitting_tm.queryResults.totalSize; index++) {
 
-                                season_hitting_data = data.sport_hitting_tm.queryResults.row[index];
-
-                                create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
-
-                            }
-                        }
-                        else {
-                            season_hitting_data = data.sport_hitting_tm.queryResults.row;
+                            season_hitting_data = season_data.sport_hitting_tm.queryResults.row[index];
 
                             create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
-                        
+
                         }
+                    }
+                    else {
+                        season_hitting_data = season_data.sport_hitting_tm.queryResults.row;
 
-                        //season_hitting_data = data.sport_hitting_tm.queryResults.row;
-                        //console.log(season_hitting_data);
+                        create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
+                    
+                    }
 
-                        //create_season_hitting_stats(season_hitting_data.season, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
-                        
-                    });
+                    //season_hitting_data = data.sport_hitting_tm.queryResults.row;
+                    //console.log(season_hitting_data);
+
+                    //create_season_hitting_stats(season_hitting_data.season, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
+
+
                 }
                 else {
-                    fetch(`http://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='${index}'&player_id='${player_data.player_id}'`)
-                    .then(response => response.json())
-                    .then(data => {
-
-                        console.log(data);
+                    console.log(season_data);
 
                         // Check to see if player has been on multiple teams in a single season
-                        if (data.sport_pitching_tm.queryResults.totalSize > 1) {
-                            for (index = 0; index < data.sport_pitching_tm.queryResults.totalSize; index++) {
+                        if (season_data.sport_pitching_tm.queryResults.totalSize > 1) {
+                            for (let index = 0; index < season_data.sport_pitching_tm.queryResults.totalSize; index++) {
                                 console.log("Test")
-                                console.log(data.sport_pitching_tm.queryResults.row[index].season)
+                                console.log(season_data.sport_pitching_tm.queryResults.row[index].season)
 
-                                season_pitching_data = data.sport_pitching_tm.queryResults.row[index];
+                                season_pitching_data = season_data.sport_pitching_tm.queryResults.row[index];
 
                                 create_season_pitching_stats(season_pitching_data.season, season_pitching_data.team_abbrev, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip);
 
                             }
                         }
                         else {
-                            season_pitching_data = data.sport_pitching_tm.queryResults.row;
+                            season_pitching_data = season_data.sport_pitching_tm.queryResults.row;
 
                             create_season_pitching_stats(season_pitching_data.season, season_pitching_data.team_abbrev, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip);
 
                         }
-                    });
                 }
             }
         }

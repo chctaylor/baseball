@@ -1,27 +1,30 @@
 // Create elements for todays games in Owl Carousel
-function create_owl_carousel_item(date, team_one, team_two) {
+function create_owl_carousel_item(date, away_team_full, home_team_full) {
     const item_div = document.createElement('div');
     const card_div = document.createElement('div');
     const list_group_ul = document.createElement('ul');
     const date_li = document.createElement('li');
-    const team_one_li = document.createElement('li');
-    const team_two_li = document.createElement('li');
+    const away_team_full_li = document.createElement('a');
+    const home_team_full_li = document.createElement('a');
 
     item_div.className = "item";
     card_div.className = "card";
     card_div.style.width = "14rem";
     list_group_ul.className = "list-group list-group-flush";
     date_li.className = "list-group-item";
-    team_one_li.className = "list-group-item";
-    team_two_li.className = "list-group-item";
+    away_team_full_li.className = "list-group-item";
+    home_team_full_li.className = "list-group-item";
 
     list_group_ul.appendChild(date_li);
-    list_group_ul.appendChild(team_one_li);
-    list_group_ul.appendChild(team_two_li);
+    list_group_ul.appendChild(away_team_full_li);
+    list_group_ul.appendChild(home_team_full_li);
+
+    away_team_full_li.href = `/team/${away_team_full.replaceAll(" ", "_")}`
+    home_team_full_li.href = `/team/${home_team_full.replaceAll(" ", "_")}`
 
     date_li.innerHTML = `Today: ${date} Local`;
-    team_one_li.innerHTML = `A: ${team_one}`;
-    team_two_li.innerHTML = `H: ${team_two}`;
+    away_team_full_li.innerHTML = `A: ${away_team_full}`;
+    home_team_full_li.innerHTML = `H: ${home_team_full}`;
 
     card_div.appendChild(list_group_ul);
 
@@ -70,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             nav:true,
             rewind: true,
             dots: false,
+            mouseDrag: false,
             responsive:{
                 0:{
                     items:1

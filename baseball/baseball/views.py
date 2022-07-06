@@ -23,9 +23,11 @@ def index(request):
     return render(request, "baseball/index.html", context)
 
 
-def team_view(request):
+def team_view(request, pk):
 
-    context = {}
+    stadium = "Colorado Rockies"
+
+    context = {'stadium':stadium}
 
     return render(request, "baseball/team.html", context)
 
@@ -86,8 +88,6 @@ def player_view(request, pk):
         career_hitting_response = requests.request("GET", url_career_hitting, headers=headers, data=payload)
         json_season_hitting_response = season_hitting_response.json()
         json_career_hitting_response = career_hitting_response.json()
-
-        # NEED TO CHECK FOR NO CURRENT SEASON STATS AND FOR MORE THAN ONE TEAM (SERGIO ROMO PROBLEM)
         
         season_hitting_stats = json_season_hitting_response["sport_hitting_tm"]["queryResults"]["row"]
         career_hitting_stats = json_career_hitting_response["sport_career_hitting"]["queryResults"]["row"]
@@ -96,8 +96,6 @@ def player_view(request, pk):
         career_pitching_response = requests.request("GET", url_career_pitching, headers=headers, data=payload)
         json_season_pitching_response = season_pitching_response.json()
         json_career_pitching_response = career_pitching_response.json()
-
-        # NEED TO CHECK FOR NO CURRENT SEASON STATS AND FOR MORE THAN ONE TEAM (SERGIO ROMO PROBLEM)
 
         season_pitching_stats = json_season_pitching_response["sport_pitching_tm"]["queryResults"]["row"]
         career_pitching_stats = json_career_pitching_response["sport_career_pitching"]["queryResults"]["row"]

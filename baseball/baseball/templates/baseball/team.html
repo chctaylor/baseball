@@ -3,7 +3,89 @@
 {% load static %}
 
 {% block body %}
-    INSERT BASEBALL TEAM NAME HERE 
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mb-3">
+                    <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img-top" alt="Globe Life Field">
+                    <div class="card-body">
+                        <h1 class="card-title">{{ stadium }}</h1>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+
+                <div class="card bg-dark text-white">
+                    <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img" alt="{{ Stadium }} Stadium">
+                    <div class="card-img-overlay">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col align-self-center">
+                                    <h1 class="card-title display-4" id="team-stadium">{{ stadium }}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Venue:</dt>
+                                    <dd class="col-8">DATA</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">City:</dt>
+                                    <dd class="col-8">DATA</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">State:</dt>
+                                    <dd class="col-8">DATA</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Division:</dt>
+                                    <dd class="col-8">DATA</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Address:</dt>
+                                    <dd class="col-8">DATA</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col">Phone Number:</dt>
+                                    <dd class="col-8">DATA</dd>
+                                </dl>
+                            </div> 
+                        </div>
+                    </div>
+                </div> 
+                <br>
+            </div>
+        </div>
+    </div>
 
     <script>
         const url = new URL(window.location.href);

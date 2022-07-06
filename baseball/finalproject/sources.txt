@@ -23,4 +23,18 @@ Referenced to help with adding text between two elements in javascript
 
 Referenced to help with parsing through json resoponse in python
     - https://pynative.com/parse-json-response-using-python-requests-library/
-    
+
+Referenced to help with implimenting a template variable into static media url 
+    - https://stackoverflow.com/questions/36519856/django-doess-recognize-variable-in-img-srctemplate
+
+
+Below are image credits for the MLB stadiums
+
+Minnesota Twins Photo
+    - http://www.gigapan.com/gigapans?order=most_popular&profile_id=CarlosG
+
+Seattle Marlins Photo 
+    - https://www.ballparksofbaseball.com/ballparks/t-mobile-park/
+
+28 other teams
+    - http://www.launchphotography.com/Ballpark_Panoramas.html
