@@ -229,7 +229,7 @@ function create_qs_leaders (player_name, player_team_abbrev, qs_stat, player_tea
 }
 
 // Create elements for Recent Transaction History
-function create_transaction_item (team_name, player_name, note_details, player_team_full) {
+function create_transaction_item (team_name, player_name, note_details) {
     const team_player_info = document.createElement('h5');
     const team_info = document.createElement('a');
     const player_info = document.createElement('a');

@@ -4,6 +4,15 @@ function get_api_team_id () {
     var today = new Date();
     var yyyy = today.getFullYear();
 
+    // Get yesterdays date for transactions
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate()-1);
+    var y_dd = String(yesterday.getDate()).padStart(2, '0');
+    var y_mm = String(yesterday.getMonth() + 1).padStart(2, '0');
+    var y_yyyy = yesterday.getFullYear();
+
+    yesterday = y_yyyy + y_mm + y_dd;
+
     // Fetch for all teams to get current visited team info
     fetch(`http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&season='${yyyy}'&team_all_season.col_in=name_display_full&team_all_season.col_in=team_id`)
     .then(response => response.json())
@@ -26,6 +35,7 @@ function get_api_team_id () {
             if (team_name == all_teams_data[index].name_display_full) {
                 team_id = all_teams_data[index].team_id;
                 get_searched_team_leaders(yyyy, team_id);
+                get_recent_team_transactions(yesterday, team_id)
             }
         }
         
@@ -42,27 +52,46 @@ async function get_searched_team_leaders (yyyy, team_id) {
     for (let index=0; index < hitting_stat.length; index++) {
         const response = await fetch(`http://lookup-service-prod.mlb.com/json/named.leader_hitting_repeater.bam?sport_code='mlb'&results=5&game_type='R'&season='${yyyy}'&sort_column='${hitting_stat[index]}'&leader_hitting_repeater.col_in=name_display_first_last&leader_hitting_repeater.col_in=${hitting_stat[index]}&leader_hitting_repeater.col_in=player_id&leader_hitting_repeater.col_in=team_abbrev&leader_hitting_repeater.col_in=team_name&team_id='${team_id}'`)
         const hitting_data = await response.json();
+        const hitting_data_total_results = hitting_data.leader_hitting_repeater.leader_hitting_mux.queryResults.totalSize
         const hitting_data_clean = hitting_data.leader_hitting_repeater.leader_hitting_mux.queryResults.row
         const current_hitting_stat = hitting_stat[index]
 
         // Get leaders for individual hitting stat and create html
-        for (let j = 0; j < hitting_data_clean.length; j++) {
-            create_hitting_leaders(hitting_data_clean[j].name_display_first_last, hitting_data_clean[j].team_abbrev, hitting_data_clean[j][current_hitting_stat], hitting_data_clean[j].team_name, current_hitting_stat)
+        if (hitting_data_total_results == "0") {
+            create_no_leaders_apology(`hitting_leaders_${current_hitting_stat}`);
         }
-
+        else if (hitting_data_total_results == "1") {
+            create_pitching_leaders(hitting_data_clean.name_display_first_last, hitting_data_clean.team_abbrev, hitting_data_clean[current_hitting_stat], hitting_data_clean.team_name, current_hitting_stat)
+        }
+        else {
+            for (let j = 0; j < hitting_data_total_results; j++) {
+                create_hitting_leaders(hitting_data_clean[j].name_display_first_last, hitting_data_clean[j].team_abbrev, hitting_data_clean[j][current_hitting_stat], hitting_data_clean[j].team_name, current_hitting_stat)
+            }
+    
+        }
     }
 
     // Get pitching leaders for each pitching stat
     for (let index=0; index < pitching_stat.length; index++) {
         const response = await fetch(`http://lookup-service-prod.mlb.com/json/named.leader_pitching_repeater.bam?sport_code='mlb'&results=5&game_type='R'&season='${yyyy}'&sort_column='${pitching_stat[index]}'&leader_pitching_repeater.col_in=${pitching_stat[index]}&leader_pitching_repeater.col_in=player_id&leader_pitching_repeater.col_in=name_display_first_last&leader_pitching_repeater.col_in=team_abbrev&leader_pitching_repeater.col_in=team_id&leader_pitching_repeater.col_in=team_name&team_id='${team_id}'`)
         const pitching_data = await response.json();
+        const pitching_data_total_results = pitching_data.leader_pitching_repeater.leader_pitching_mux.queryResults.totalSize
         const pitching_data_clean = pitching_data.leader_pitching_repeater.leader_pitching_mux.queryResults.row
         const current_pitching_stat = pitching_stat[index]
 
         // Get leaders for individual pitching stat and create html
-        for (let j =0; j < pitching_data_clean.length; j++) {
-            create_pitching_leaders(pitching_data_clean[j].name_display_first_last, pitching_data_clean[j].team_abbrev, pitching_data_clean[j][current_pitching_stat], pitching_data_clean[j].team_name, current_pitching_stat)
+        if (pitching_data_total_results == "0") {
+            create_no_leaders_apology(`pitching_leaders_${current_pitching_stat}`);
         }
+        else if (pitching_data_total_results == "1") {
+            create_pitching_leaders(pitching_data_clean.name_display_first_last, pitching_data_clean.team_abbrev, pitching_data_clean[current_pitching_stat], pitching_data_clean.team_name, current_pitching_stat)
+        }
+        else {
+            for (let j =0; j < pitching_data_total_results; j++) {
+                create_pitching_leaders(pitching_data_clean[j].name_display_first_last, pitching_data_clean[j].team_abbrev, pitching_data_clean[j][current_pitching_stat], pitching_data_clean[j].team_name, current_pitching_stat)
+            }
+        }
+         
     }
 }
 
@@ -111,6 +140,63 @@ async function create_pitching_leaders (player_name, player_team_abbrev, pitchin
 
     document.getElementById(`pitching_leaders_${stat}`).appendChild(player_info_li)
 }
+
+async function create_no_leaders_apology (element_id_stat) {
+    document.getElementById(`${element_id_stat}`).innerHTML = "We apologize, but there are no leaders in this category at this time"
+}
+
+async function create_no_transaction_apology () {
+    document.getElementById("transactions").innerHTML = "We apologize, but there were no team transactions made yesterday"
+}
+
+async function get_recent_team_transactions (yesterday, team_id) {
+    const response = await fetch(`http://lookup-service-prod.mlb.com/json/named.transaction_all.bam?sport_code='mlb'&start_date='${yesterday}'&end_date='${yesterday}'&team_id='${team_id}'`)
+    const team_transaction_data = await response.json();
+    const team_transaction_data_total_results = team_transaction_data.transaction_all.queryResults.totalSize
+    const team_transaction_data_clean = team_transaction_data.transaction_all.queryResults.row
+
+    if (team_transaction_data_total_results == "0") {
+        create_no_transaction_apology();
+    }
+    else if (team_transaction_data_total_results == "1") {
+        create_recent_team_transaction(team_transaction_data_clean.team, team_transaction_data_clean.name_display_first_last, team_transaction_data_clean.note);
+    }
+    else {
+        for (let index = 0; index < team_transaction_data_total_results; index++) {
+            create_recent_team_transaction(team_transaction_data_clean[index].team, team_transaction_data_clean[index].name_display_first_last, team_transaction_data_clean[index].note)
+        }
+    }
+}
+
+async function create_recent_team_transaction(team_name, player_name, note_details) {
+    const team_player_info = document.createElement('h5');
+    const team_info = document.createElement('a');
+    const player_info = document.createElement('a');
+
+    team_info.href = `/team/${team_name.replaceAll(" ", "_")}`
+    player_info.href = `/player/${player_name.replace(" ", "_")}`
+
+    const transaction_note = document.createElement('div');
+    const divider = document.createElement('hr');
+
+    team_player_info.setAttribute('id', 'team_player')
+    team_info.setAttribute('id', 'team-info');
+    player_info.setAttribute('id', 'player-info');
+
+    team_info.innerHTML = `${team_name}`
+    player_info.innerHTML = `${player_name}`
+    transaction_note.innerHTML = `${note_details}`;
+
+    team_player_info.appendChild(team_info);
+    team_player_info.insertAdjacentHTML('beforeend', ' - ')
+    team_player_info.appendChild(player_info);
+
+    document.getElementById("transactions").appendChild(team_player_info);
+    document.getElementById("transactions").appendChild(transaction_note);
+    document.getElementById("transactions").appendChild(divider);
+
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Get team id of current team page

@@ -235,6 +235,7 @@
                                             </tbody>
                                         </table>
                                         <br>
+                                        <br>
 
                                     </div>
                                 </div>
@@ -408,6 +409,10 @@
                                 </div>
                                 <div class="col">
                                     <h2 style="text-align: center;">Recent Transactions</h2>
+                                    <div class="card">
+                                        <div class="card-body" id="transactions">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>    
                         
@@ -419,7 +424,35 @@
                 <div class="row">
                     <div class="col">
                         <div class="card">
-                            INSERT NEWS HERE {{ team.team_id }}
+                            
+                            <!-- TESTING TEAM NEWS -->
+                            <div class="card-body">
+                                {% if team_news.totalResults != 0 %}
+                                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                                        <!-- Display articles -->
+                                        {% for article in team_news.articles %}
+                                            <div class="col">
+                                                <div class="card mb-3 h-100" style="max-width: 540px;">
+                                                    <img src="{{ article.urlToImage }}" class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><a href="{{ article.url }}" style="text-decoration: none; color: inherit;">{{ article.title }}</a></h5>
+                                                        <p class="card-text">{{ article.description }}</p>
+                                                        {% if article.source.name == "ESPN" %}
+                                                            <a href="{{ article.url }}"><img src="http://a.espncdn.com/i/apis/attribution/espn-black_50.png"></a>
+                                                        {% else %}
+                                                            <p class="card-text"><small class="text-muted">Source: {{ article.source.name }}</small></p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        {% endfor %}
+                                    </div> 
+                                {% else %}
+                                    <h5>We apologize, but there are no recent articles for {{ player.name_display_first_last }}</h5>
+                                {% endif %} 
+                            </div>
+                            <!-- END TESTING -->
+
                         </div>
                     </div>
                 </div>

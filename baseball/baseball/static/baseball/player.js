@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var player_name = split_path[2];
     console.log(player_name);
-    
+
     fetch(`http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code='mlb'&active_sw='Y'&search_player_all.col_in=name_display_first_last&search_player_all.col_in=player_id&search_player_all.col_in=pro_debut_date&search_player_all.col_in=position&name_part='${player_name}'`)
     .then(response => response.json())
     .then(async data => {
@@ -172,17 +172,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     else {
                         season_hitting_data = season_data.sport_hitting_tm.queryResults.row;
-
-                        create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
-                    
+                        // Ohtani Rule: Check to see if player had a gap year
+                        if (season_data.sport_hitting_tm.queryResults.totalSize != "0") {
+                            create_season_hitting_stats(season_hitting_data.season, season_hitting_data.team_abbrev, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
+                        }
                     }
-
-                    //season_hitting_data = data.sport_hitting_tm.queryResults.row;
-                    //console.log(season_hitting_data);
-
-                    //create_season_hitting_stats(season_hitting_data.season, season_hitting_data.ab, season_hitting_data.r, season_hitting_data.h, season_hitting_data.hr, season_hitting_data.rbi, season_hitting_data.avg);
-
-
                 }
                 else {
                     console.log(season_data);
@@ -201,8 +195,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         else {
                             season_pitching_data = season_data.sport_pitching_tm.queryResults.row;
-
-                            create_season_pitching_stats(season_pitching_data.season, season_pitching_data.team_abbrev, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip);
+                            // Ohtani Rule: Check to see if player had a gap year
+                            if (season_data.sport_pitching_tm.queryResults.totalSize != "0") {
+                                create_season_pitching_stats(season_pitching_data.season, season_pitching_data.team_abbrev, season_pitching_data.w, season_pitching_data.l, season_pitching_data.era, season_pitching_data.ip, season_pitching_data.so, season_pitching_data.whip);
+                            }
 
                         }
                 }

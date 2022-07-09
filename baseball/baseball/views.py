@@ -63,11 +63,27 @@ def team_view(request, pk):
     # Parse json response for team roster search to simplify HTML
     team_roster = json_team_roster_search_response["roster_40"]["queryResults"]["row"]
 
-    # Search Team Hitting/Pitching Leaders from MLB API
-    
+    # Get 6 latest articles pertaining to the visited team
+    url_team_news = "https://newsapi.org/v2/everything?domains=mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com&sortBy=publishedAt&searchIn=title,description&pageSize=6&q=" + team_name_spaces + ""
+
+    payload={}
+    headers = {
+    'X-Api-Key': '093cee10911e400eb1a2c2d6e778e43c' # NEED TO HIDE MY API KEY
+    }
+
+    team_news_response = requests.request("GET", url_team_news, headers=headers, data=payload)
+    json_team_news_response = team_news_response.json()
+
+    # Simplify for HTML
+    team_news = json_team_news_response    
 
 
-    context = {'stadium':stadium, 'team':team, "team_roster":team_roster}
+    context = {
+        'stadium':stadium, 
+        'team':team, 
+        "team_roster":team_roster,
+        "team_news":team_news
+    }
 
     return render(request, "baseball/team.html", context)
 
