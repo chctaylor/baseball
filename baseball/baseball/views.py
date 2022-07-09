@@ -30,10 +30,13 @@ def team_view(request, pk):
     # Get visited team name with spaces for the visited team page
     team_name = pk
     team_name_spaces = team_name.replace("_", " ")
+
+    # Used to get Team image from static files
+    stadium = team_name_spaces
     print(team_name_spaces)
 
     # Get MLB_API_ID from database 
-    team_info = Teams.objects.get(name_display_full=team_name_spaces)
+    team_info = Teams.objects.get(name_display_full=team_name_spaces) # NEED TO PUT IN A HANDLE IF NO TEAM FOUND ERROR PAGE
     print(team_info.MLB_API_ID)
 
     # Search Team from MLB API
@@ -48,9 +51,23 @@ def team_view(request, pk):
     # Parse json response for team search to simplify HTML
     team = json_team_search_response["team_all_season"]["queryResults"]["row"]
 
-    stadium = team_name_spaces
+    # Search 40 Man Roster from MLB API
+    url_team_roster_search = "http://lookup-service-prod.mlb.com/json/named.roster_40.bam?roster_40.col_in=name_display_first_last&roster_40.col_in=player_id&roster_40.col_in=bats&roster_40.col_in=position_txt&roster_40.col_in=jersey_number&roster_40.col_in=throws&roster_40.col_in=status_code&team_id='" + team_info.MLB_API_ID + "'"
+    
+    payload = {}
+    headers = {}
 
-    context = {'stadium':stadium, 'team':team}
+    team_roster_search_response = requests.request("GET", url_team_roster_search, headers=headers, data=payload)
+    json_team_roster_search_response = team_roster_search_response.json()
+
+    # Parse json response for team roster search to simplify HTML
+    team_roster = json_team_roster_search_response["roster_40"]["queryResults"]["row"]
+
+    # Search Team Hitting/Pitching Leaders from MLB API
+    
+
+
+    context = {'stadium':stadium, 'team':team, "team_roster":team_roster}
 
     return render(request, "baseball/team.html", context)
 
