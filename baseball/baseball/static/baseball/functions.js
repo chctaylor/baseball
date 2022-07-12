@@ -96,7 +96,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
     });
-
-    // News API
     
 });

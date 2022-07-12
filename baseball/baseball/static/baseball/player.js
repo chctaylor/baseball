@@ -1,4 +1,4 @@
-function create_season_hitting_stats (season_stat, season_team, ab_stat, r_stat, h_stat, hr_stat, rbi_stat, avg_stat) {
+function create_season_hitting_stats (season_stat, season_team_abbrev, ab_stat, r_stat, h_stat, hr_stat, rbi_stat, avg_stat) {
     // Create table elements for season hitting stats
     const season_th = document.createElement('th');
     const team_td = document.createElement('td');
@@ -23,7 +23,7 @@ function create_season_hitting_stats (season_stat, season_team, ab_stat, r_stat,
 
     // Set elements data
     season_th.innerHTML = `${season_stat}`;
-    team_td.innerHTML = `${season_team}`;
+    team_td.innerHTML = `${season_team_abbrev}`;
     ab_td.innerHTML = `${ab_stat}`;
     r_td.innerHTML = `${r_stat}`;
     h_td.innerHTML = `${h_stat}`;
@@ -35,7 +35,7 @@ function create_season_hitting_stats (season_stat, season_team, ab_stat, r_stat,
 
 }
 
-function create_season_pitching_stats (season_stat, season_team, w_stat, l_stat, era_stat, ip_stat, so_stat, whip_stat) {
+function create_season_pitching_stats (season_stat, season_team_abbrev, w_stat, l_stat, era_stat, ip_stat, so_stat, whip_stat) {
     // Create table elements for season pitching stats
     const season_th = document.createElement('th');
     const team_td = document.createElement('td');
@@ -60,7 +60,7 @@ function create_season_pitching_stats (season_stat, season_team, w_stat, l_stat,
 
     // Set elements data
     season_th.innerHTML = `${season_stat}`;
-    team_td.innerHTML = `${season_team}`;
+    team_td.innerHTML = `${season_team_abbrev}`;
     w_td.innerHTML = `${w_stat}`;
     l_td.innerHTML = `${l_stat}`;
     era_td.innerHTML = `${era_stat}`;
@@ -205,5 +205,29 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Get pro debut and reformate
+    const pro_debut_date = document.getElementById("pro-debut-date").innerHTML
+    const split_pro_debut_date_time = pro_debut_date.split("T")
+    const split_pro_debut_date = split_pro_debut_date_time[0].split("-")
+    const pro_debut_month = split_pro_debut_date[1]
+    const pro_debut_day = split_pro_debut_date[2]
+    const pro_debut_year = split_pro_debut_date[0]
+    const formatted_pro_debut = `${pro_debut_month}-${pro_debut_day}-${pro_debut_year}`
+    document.getElementById("pro-debut-date").innerHTML = formatted_pro_debut
     
+});
+
+// Listen for clicks on team names
+document.addEventListener('click', event => {
+
+    // Find what was clicked on
+    const element = event.target;
+
+    // If player name is clicked on in 40 Man Roster take them to player page
+    if (element.id === 'team-name-bio') {
+        const url_player_name = element.innerHTML.replaceAll(" ", "_")
+        location.href = `/team/${url_player_name}`;
+
+    }
 });

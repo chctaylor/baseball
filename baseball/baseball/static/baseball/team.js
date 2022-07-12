@@ -202,3 +202,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get team id of current team page
     get_api_team_id();
 });
+
+
+// Listen for clicks on player names
+document.addEventListener('click', event => {
+
+    // Find what was clicked on
+    const element = event.target;
+
+    // If player name is clicked on in 40 Man Roster take them to player page
+    if (element.id === 'player-name-40') {
+        const url_player_name = element.innerHTML.replaceAll(" ", "_")
+        location.href = `/player/${url_player_name}`;
+
+    }
+});

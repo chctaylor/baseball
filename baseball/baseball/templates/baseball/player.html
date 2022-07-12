@@ -19,7 +19,9 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Team:</dt>
-                                    <dd class="col-8">{{ player.team_full }}</dd>
+                                    <dd class="col-8">
+                                        <span id="team-name-bio">{{ correct_team.name_display_full }}</span>
+                                    </dd>
                                 </dl>
                             </div> 
                         </div>
@@ -79,7 +81,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Pro Debut:</dt>
-                                    <dd class="col-8">{{ player.pro_debut_date }}</dd>
+                                    <dd class="col-8" id="pro-debut-date">{{ player.pro_debut_date }}</dd>
                                 </dl>
                             </div> 
                         </div>

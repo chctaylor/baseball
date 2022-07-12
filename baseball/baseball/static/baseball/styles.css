@@ -4,11 +4,11 @@
 }
 
 /* Players and Teams */
-#team-info, #player-info {
+#team-info, #player-info, #player-name-40, #team-name-bio {
     cursor: pointer;
 }
 
-#team-info:hover, #player-info:hover {
+#team-info:hover, #player-info:hover, #player-name-40:hover, #team-name-bio:hover {
     text-decoration: underline;
 }
 

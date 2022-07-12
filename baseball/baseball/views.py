@@ -14,7 +14,7 @@ def index(request):
 
     # Get 10 latest articles pertaining to MLB
     all_articles = newsapi.get_everything(
-        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf)',
+        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf OR nba)',
         domains='mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com',
         sort_by='publishedAt',
         page_size=10
@@ -35,8 +35,11 @@ def team_view(request, pk):
     stadium = team_name_spaces
     print(team_name_spaces)
 
-    # Get MLB_API_ID from database 
-    team_info = Teams.objects.get(name_display_full=team_name_spaces) # NEED TO PUT IN A HANDLE IF NO TEAM FOUND ERROR PAGE
+    # Get MLB_API_ID from database and check if it exists
+    if Teams.objects.filter(name_display_full=team_name_spaces).exists():
+        team_info = Teams.objects.get(name_display_full=team_name_spaces)
+    else:
+        return render(request, "baseball/error.html", {'pk': team_name_spaces})
     print(team_info.MLB_API_ID)
 
     # Search Team from MLB API
@@ -80,7 +83,8 @@ def team_view(request, pk):
 
     context = {
         'stadium':stadium, 
-        'team':team, 
+        'team':team,
+        'team_name_spaces':team_name_spaces, 
         "team_roster":team_roster,
         "team_news":team_news
     }
@@ -104,6 +108,11 @@ def player_view(request, pk):
         return render(request, "baseball/error.html", {'pk': pk})
     else:
         player = json_player_search_response["search_player_all"]["queryResults"]["row"]
+
+    # Get correct team name from team id (Cleveland Guardians/Indians issue with MLB API)
+    team_mlb_api_id = json_player_search_response["search_player_all"]["queryResults"]["row"]["team_id"]
+    correct_team = Teams.objects.get(MLB_API_ID=team_mlb_api_id)
+    print(correct_team.name_display_full)
 
 
     # Search player info from MLB API via the player id
@@ -145,7 +154,9 @@ def player_view(request, pk):
         json_season_hitting_response = season_hitting_response.json()
         json_career_hitting_response = career_hitting_response.json()
         
-        season_hitting_stats = json_season_hitting_response["sport_hitting_tm"]["queryResults"]["row"]
+        # Check if player has current season stats
+        if json_season_hitting_response["sport_hitting_tm"]["queryResults"]["totalSize"] != "0":
+            season_hitting_stats = json_season_hitting_response["sport_hitting_tm"]["queryResults"]["row"]
         career_hitting_stats = json_career_hitting_response["sport_career_hitting"]["queryResults"]["row"]
     else:
         season_pitching_response = requests.request("GET", url_season_pitching, headers=headers, data=payload)
@@ -153,7 +164,9 @@ def player_view(request, pk):
         json_season_pitching_response = season_pitching_response.json()
         json_career_pitching_response = career_pitching_response.json()
 
-        season_pitching_stats = json_season_pitching_response["sport_pitching_tm"]["queryResults"]["row"]
+        # Check if player has current season stats
+        if json_season_pitching_response["sport_pitching_tm"]["queryResults"]["totalSize"] != "0":
+            season_pitching_stats = json_season_pitching_response["sport_pitching_tm"]["queryResults"]["row"]
         career_pitching_stats = json_career_pitching_response["sport_career_pitching"]["queryResults"]["row"]
 
     # Get 4 latest articles pertaining to MLB
@@ -180,6 +193,7 @@ def player_view(request, pk):
         "season_pitching_stats": season_pitching_stats,
         "career_pitching_stats": career_pitching_stats,
         "player_news": player_news,
+        "correct_team": correct_team,
     }
 
     return render(request, "baseball/player.html", context)
