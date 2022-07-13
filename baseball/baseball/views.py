@@ -5,12 +5,15 @@ from newsapi import NewsApiClient
 
 from .models import Teams, TeamTwitter
 
+from . import keys
+
 import requests, json
 
 def index(request):
 
     # Get MLB news articles using News API
-    newsapi = NewsApiClient(api_key='093cee10911e400eb1a2c2d6e778e43c') # NEED TO HIDE MY API KEY
+    NEWS_API_KEY = keys.NEWS_API_KEY
+    newsapi = NewsApiClient(api_key=NEWS_API_KEY)
 
     # Get 10 latest articles pertaining to MLB
     all_articles = newsapi.get_everything(
@@ -67,11 +70,12 @@ def team_view(request, pk):
     team_roster = json_team_roster_search_response["roster_40"]["queryResults"]["row"]
 
     # Get 6 latest articles pertaining to the visited team
+    NEWS_API_KEY = keys.NEWS_API_KEY
     url_team_news = "https://newsapi.org/v2/everything?domains=mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com&sortBy=publishedAt&searchIn=title,description&pageSize=6&q=" + team_name_spaces + ""
 
     payload={}
     headers = {
-    'X-Api-Key': '093cee10911e400eb1a2c2d6e778e43c' # NEED TO HIDE MY API KEY
+    'X-Api-Key': NEWS_API_KEY
     }
 
     team_news_response = requests.request("GET", url_team_news, headers=headers, data=payload)
@@ -105,7 +109,8 @@ def player_view(request, pk):
 
     # Check and then Parse json response for player search to simplify HTML
     if json_player_search_response["search_player_all"]["queryResults"]['totalSize'] == "0":
-        return render(request, "baseball/error.html", {'pk': pk})
+        player_name_spaces = pk.replace("_", " ")
+        return render(request, "baseball/error.html", {'pk': player_name_spaces})
     else:
         player = json_player_search_response["search_player_all"]["queryResults"]["row"]
 
@@ -170,11 +175,12 @@ def player_view(request, pk):
         career_pitching_stats = json_career_pitching_response["sport_career_pitching"]["queryResults"]["row"]
 
     # Get 4 latest articles pertaining to MLB
+    NEWS_API_KEY = keys.NEWS_API_KEY
     url_player_news = "https://newsapi.org/v2/everything?domains=mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com&sortBy=publishedAt&searchIn=title,description&pageSize=4&q=" + player["name_display_first_last"] + ""
 
     payload={}
     headers = {
-    'X-Api-Key': '093cee10911e400eb1a2c2d6e778e43c' # NEED TO HIDE MY API KEY
+    'X-Api-Key': NEWS_API_KEY
     }
 
     player_news_response = requests.request("GET", url_player_news, headers=headers, data=payload)
