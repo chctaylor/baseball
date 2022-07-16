@@ -197,10 +197,28 @@ async function create_recent_team_transaction(team_name, player_name, note_detai
 
 }
 
+// Get Twitter created date and reformate
+function reformate_twitter_created_date() {
+    const all_tweet_created = document.querySelectorAll('#tweet-created')
+    console.log(all_tweet_created[0].innerHTML)
+    for (i = 0; i < all_tweet_created.length; i++) {
+        const tweet_created = all_tweet_created[i].innerHTML
+        const split_tweet_created_time = tweet_created.split("T")
+        const split_tweet_created = split_tweet_created_time[0].split("-")
+        const tweet_created_month = split_tweet_created[1]
+        const tweet_created_day = split_tweet_created[2]
+        const tweet_created_year = split_tweet_created[0]
+        const formatted_tweet_created = `${tweet_created_month} - ${tweet_created_day} -${tweet_created_year}`
+        all_tweet_created[i].innerHTML = formatted_tweet_created
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Get team id of current team page
     get_api_team_id();
+
+    reformate_twitter_created_date();
 });
 
 

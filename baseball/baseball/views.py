@@ -24,8 +24,6 @@ def index(request):
         page_size=10
     )
 
-    # TESTING TWITTER API
-
     # Define Twitter authentication token and search twitter for MLB tweets
     TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
 
@@ -41,8 +39,6 @@ def index(request):
     all_mlb_tweets = json_mlb_twitter_handles_response
 
     print(mlb_twitter_handles_response.text)
-
-    # ENDTESTING 
 
     context = {'all_articles':all_articles, 'all_mlb_tweets':all_mlb_tweets}
 
@@ -62,9 +58,12 @@ def team_view(request, pk):
     # Get MLB_API_ID from database and check if it exists
     if Teams.objects.filter(name_display_full=team_name_spaces).exists():
         team_info = Teams.objects.get(name_display_full=team_name_spaces)
+        # Get Twitter handles for team
+        team_twitter = TeamTwitter.objects.filter(team_id=team_info.id)
     else:
         return render(request, "baseball/error.html", {'pk': team_name_spaces})
     print(team_info.MLB_API_ID)
+    print(team_twitter[1].handle)
 
     # Search Team from MLB API
     url_team_search = "http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&season='2022'&team_id='" + team_info.MLB_API_ID + "'"
@@ -103,7 +102,30 @@ def team_view(request, pk):
     json_team_news_response = team_news_response.json()
 
     # Simplify for HTML
-    team_news = json_team_news_response    
+    team_news = json_team_news_response
+
+    # TESTING TWITTER FOR TEAMS
+
+    # Define Twitter authentication token and search twitter for team related tweets
+    TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
+
+    team_twitter_handle_one = team_twitter[0].handle
+    team_twitter_handle_two = team_twitter[1].handle
+
+    team_twitter_handles_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:" + team_twitter_handle_one +" OR from:" + team_twitter_handle_two + "&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
+
+    payload={}
+    headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
+
+    team_twitter_handles_response = requests.request("GET", team_twitter_handles_url, headers=headers, data=payload)
+    json_team_twitter_handles_response = team_twitter_handles_response.json()
+
+    # Parse twitter json respone to simplify for HTML
+    team_mlb_tweets = json_team_twitter_handles_response
+
+    print(team_twitter_handles_response.text) 
+
+    # END TESTING
 
 
     context = {
@@ -111,7 +133,8 @@ def team_view(request, pk):
         'team':team,
         'team_name_spaces':team_name_spaces, 
         "team_roster":team_roster,
-        "team_news":team_news
+        "team_news":team_news,
+        "team_mlb_tweets":team_mlb_tweets,
     }
 
     return render(request, "baseball/team.html", context)
@@ -209,6 +232,27 @@ def player_view(request, pk):
 
     # Simplify for HTML
     player_news = json_player_news_response
+
+    # TESTING TWITTER ACCOUNT
+    # Define Twitter authentication token and search twitter for player tweets
+    TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
+    
+    player_twitter_handle = player_info["twitter_id"]
+    split_player_twitter_handle = player_twitter_handle.split("@")
+    player_twitter_name = split_player_twitter_handle[1]
+
+    player_twitter_handle_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:" + player_twitter_name +"&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
+
+    payload={}
+    headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
+
+    player_twitter_handle_response = requests.request("GET", player_twitter_handle_url, headers=headers, data=payload)
+    json_player_twitter_handle_response = player_twitter_handle_response.json()
+
+    # Parse twitter json respone to simplify for HTML
+    player_mlb_tweets = json_player_twitter_handle_response
+
+    print(player_twitter_handle_response.text)
  
 
     # Variables for HTML
@@ -221,6 +265,8 @@ def player_view(request, pk):
         "career_pitching_stats": career_pitching_stats,
         "player_news": player_news,
         "correct_team": correct_team,
+        "player_twitter_name": player_twitter_name,
+        "player_mlb_tweets": player_mlb_tweets
     }
 
     return render(request, "baseball/player.html", context)

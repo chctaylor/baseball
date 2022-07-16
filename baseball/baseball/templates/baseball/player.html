@@ -10,6 +10,10 @@
                 <h1 class="display-1">
                     {{ player.name_display_first_last }}
                 </h1>
+                <h5>
+                  <a href="https://twitter.com/{{ player_twitter_name }}">{{ player_info.twitter_id }}</a>
+                </h5>
+                <hr>
                 <br>
                 <!-- Display player Bio information -->
                 <h2>Bio</h2>
@@ -278,6 +282,93 @@
                         {% endif %} 
                     </div>
                 </div>
+            </div>
+        </div>
+        <br>
+        
+        <!-- Twitter Posts -->
+        <h2>Recent Twitter Posts</h2>
+        <div class="row">
+            <div class="col">       
+                <!-- Creating Twitter Cards -->
+                {% if player_mlb_tweets.meta.result_count != 0 %}
+                    {% for tweet in player_mlb_tweets.data %}                
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="container" style="padding: 15px 15px;">
+                                    <div class="row" style="padding-bottom: 10px;">
+                                        <!-- Populating User Info -->
+                                        {% for user in player_mlb_tweets.includes.users %}
+                                            {% if user.id == tweet.author_id %}
+                                                <div class="col-lg-2">
+                                                    <img src="{{ user.profile_image_url }}" style="height: 48px; width: 48px;"> 
+                                                </div>
+                                                <div class="col-lg" style="padding-left: 0;">
+                                                    <div>{{ user.name }}</div>
+                                                    <div>@{{ user.username }}</div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <!-- Twitter Logo -->
+                                        <div class="col-lg">
+                                            <a href="https://twitter.com/"><img src="{% static 'baseball/images/logos/Twitter_Logo_Blue.png' %}" class="card_img" style="float: right;" height="19.22" width="23.65"></a>
+                                        </div>
+                                    </div>
+                                    <!-- Contents of the Tweet -->
+                                    <div class="row">
+                                        <div class="col" style="padding-bottom: 10px;">
+                                            {{ tweet.text }}
+                                        </div>
+                                    </div>
+                                    <!-- Image/Video Preview -->
+                                    <div class="row">
+                                        <div class="container" style="position: relative;">
+                                            {% for media in player_mlb_tweets.includes.media %}
+                                                {% if media.media_key == tweet.attachments.media_keys.0 %}
+                                                    {% if media.type == "photo" %}
+                                                        <div class="col" style="padding-bottom: 10px;">
+                                                            <img src="{{ media.url }}" class="card-img">
+                                                        </div>
+                                                    {% elif media.type == "video" %}
+                                                        <div class="col" style="padding-bottom: 10px;">
+                                                            <a href="{{ tweet.entities.urls.0.url }}"><img src="{{ media.preview_image_url }}" class="card-img"></a>
+                                                            <div class="play-button-overlay">
+                                                                <a href="{{ tweet.entities.urls.0.url }}"><img class="card-img" height="75" width="150" src="https://www.freeiconspng.com/uploads/play-button-icon-png-8.png"></a>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col text-muted" id="tweet-created" style="padding-bottom: 5px;">
+                                            {{ tweet.created_at }}
+                                        </div>
+                                    </div>
+                                    <hr style="margin-top: 0px;">
+                                    <!-- Link to tweet -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="{{ tweet.entities.urls.0.url }}">View on Twitter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+                        <br>
+                    {% endfor %}
+                {% else %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>
+                                We apologize, but there are no recent twitter posts for {{ player.name_display_first_last }}, but you can
+                                visit his twitter page <a href="https://twitter.com/{{ player_twitter_name }}">{{ player_info.twitter_id }}</a> 
+                                to get all his posts.
+                            </h5>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <br>
