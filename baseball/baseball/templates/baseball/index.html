@@ -55,19 +55,24 @@
                                 </div>
                                 <!-- Image/Video Preview -->
                                 <div class="row">
-                                    {% for media in all_mlb_tweets.includes.media %}
-                                        {% if media.media_key == tweet.attachments.media_keys.0 %}
-                                            {% if media.type == "photo" %}
-                                                <div class="col" style="padding-bottom: 10px;">
-                                                    <img src="{{ media.url }}" class="card-img">
-                                                </div>
-                                            {% elif media.type == "video" %}
-                                                <div class="col" style="padding-bottom: 10px;">
-                                                    <a href="{{ tweet.entities.urls.0.url }}"><img src="{{ media.preview_image_url }}" class="card-img"></a>
-                                                </div>
+                                    <div class="container" style="position: relative;">
+                                        {% for media in all_mlb_tweets.includes.media %}
+                                            {% if media.media_key == tweet.attachments.media_keys.0 %}
+                                                {% if media.type == "photo" %}
+                                                    <div class="col" style="padding-bottom: 10px;">
+                                                        <img src="{{ media.url }}" class="card-img">
+                                                    </div>
+                                                {% elif media.type == "video" %}
+                                                    <div class="col" style="padding-bottom: 10px;">
+                                                        <a href="{{ tweet.entities.urls.0.url }}"><img src="{{ media.preview_image_url }}" class="card-img"></a>
+                                                        <div class="play-button-overlay">
+                                                            <a href="{{ tweet.entities.urls.0.url }}"><img class="card-img" height="75" width="150" src="https://www.freeiconspng.com/uploads/play-button-icon-png-8.png"></a>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
-                                        {% endif %}
-                                    {% endfor %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col text-muted" id="tweet-created" style="padding-bottom: 5px;">
@@ -89,7 +94,7 @@
             </div>
 
             <!-- Display Stats and More Info -->
-            <div class="col">
+            <div class="col-md">
                 <h1 style="text-decoration: underline;">Stats & More</h1>
                 <br>
 

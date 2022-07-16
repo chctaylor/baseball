@@ -30,6 +30,9 @@ Referenced to help with implimenting a template variable into static media url
 Referenced to help hide API keys
     - https://www.youtube.com/watch?v=CJjSOzb0IYs
 
+Referenced to get play button for video overlay
+    - https://www.freeiconspng.com/images/play-button-icon-png
+
 
 Below are image credits for the MLB stadiums
 

@@ -36,6 +36,15 @@ dt, dd {
     padding-right: 5px;
 }
 
-#sticky-stuff {
-    position: sticky;
+.play-button-overlay {
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    height: 100%;
+    width: 100%;
+
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
