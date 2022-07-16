@@ -5,6 +5,7 @@
 {% block body %}
     <div class="container">
         <div class="row">
+            <!-- Display News and Media Info -->
             <div class="col-8">
                 <h1 style="text-decoration: underline;">News & Media</h1>
                 <br>
@@ -22,7 +23,72 @@
                     </div>
                 </div>
                 {% endfor %}
+
+                 <!-- Creating Twitter Cards -->
+                 {% for tweet in all_mlb_tweets.data %}                
+                    <div class="col-8">
+                        <div class="card">
+                            <div class="container" style="padding: 15px 15px;">
+                                <div class="row" style="padding-bottom: 10px;">
+                                    <!-- Populating User Info -->
+                                    {% for user in all_mlb_tweets.includes.users %}
+                                        {% if user.id == tweet.author_id %}
+                                            <div class="col-lg-2">
+                                                <img src="{{ user.profile_image_url }}" style="height: 48px; width: 48px;"> 
+                                            </div>
+                                            <div class="col-lg" style="padding-left: 0;">
+                                                <div>{{ user.name }}</div>
+                                                <div>@{{ user.username }}</div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!-- Twitter Logo -->
+                                    <div class="col-lg">
+                                        <img src="{% static 'baseball/images/logos/Twitter_Logo_Blue.png' %}" class="card_img" style="float: right;" height="19.22" width="23.65">
+                                    </div>
+                                </div>
+                                <!-- Contents of the Tweet -->
+                                <div class="row">
+                                    <div class="col" style="padding-bottom: 10px;">
+                                        {{ tweet.text }}
+                                    </div>
+                                </div>
+                                <!-- Image/Video Preview -->
+                                <div class="row">
+                                    {% for media in all_mlb_tweets.includes.media %}
+                                        {% if media.media_key == tweet.attachments.media_keys.0 %}
+                                            {% if media.type == "photo" %}
+                                                <div class="col" style="padding-bottom: 10px;">
+                                                    <img src="{{ media.url }}" class="card-img">
+                                                </div>
+                                            {% elif media.type == "video" %}
+                                                <div class="col" style="padding-bottom: 10px;">
+                                                    <a href="{{ tweet.entities.urls.0.url }}"><img src="{{ media.preview_image_url }}" class="card-img"></a>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="row">
+                                    <div class="col text-muted" id="tweet-created" style="padding-bottom: 5px;">
+                                        {{ tweet.created_at }}
+                                    </div>
+                                </div>
+                                <hr style="margin-top: 0px;">
+                                <!-- Link to tweet -->
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="{{ tweet.entities.urls.0.url }}">View on Twitter</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                    <br>
+                {% endfor %}
             </div>
+
+            <!-- Display Stats and More Info -->
             <div class="col">
                 <h1 style="text-decoration: underline;">Stats & More</h1>
                 <br>

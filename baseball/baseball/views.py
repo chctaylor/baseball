@@ -8,6 +8,7 @@ from .models import Teams, TeamTwitter
 from . import keys
 
 import requests, json
+import tweepy
 
 def index(request):
 
@@ -17,13 +18,33 @@ def index(request):
 
     # Get 10 latest articles pertaining to MLB
     all_articles = newsapi.get_everything(
-        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf OR nba)',
+        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf OR nba OR basketball)',
         domains='mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com',
         sort_by='publishedAt',
         page_size=10
     )
 
-    context = {'all_articles':all_articles}
+    # TESTING TWITTER API
+
+    # Define Twitter authentication token and search twitter for MLB tweets
+    TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
+
+    mlb_twitter_handles_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:MLB OR from:MLBNetwork OR from:MLBStats OR from:MLBReplays OR from:MLBRandomStats OR from:sn_mlb OR from:MLBONFOX OR from:CBSSportsMLB OR from:mlbtraderumors&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
+
+    payload={}
+    headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
+
+    mlb_twitter_handles_response = requests.request("GET", mlb_twitter_handles_url, headers=headers, data=payload)
+    json_mlb_twitter_handles_response = mlb_twitter_handles_response.json()
+
+    # Parse twitter json respone to simplify for HTML
+    all_mlb_tweets = json_mlb_twitter_handles_response
+
+    print(mlb_twitter_handles_response.text)
+
+    # ENDTESTING 
+
+    context = {'all_articles':all_articles, 'all_mlb_tweets':all_mlb_tweets}
 
     return render(request, "baseball/index.html", context)
 

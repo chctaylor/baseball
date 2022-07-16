@@ -35,3 +35,7 @@ dt, dd {
     padding-left: 5px;
     padding-right: 5px;
 }
+
+#sticky-stuff {
+    position: sticky;
+}

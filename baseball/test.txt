@@ -117,3 +117,41 @@ def team_twitter_info(apps, schema_editor):
         ("San Francisco Giants", "137", "SFGiants", "NBCSGiants"),
 
     ]
+
+
+
+// TWITTER RESPONSE JSON 
+{
+    "data": [
+        {
+            "text": "It's a battle in the AL East between the @RedSox and @RaysBaseball who are separated by just 1/2 a game.\n\nWatch it for FREE on @MLBTV. https://t.co/GHsnPT5cNw https://t.co/eY906S91V0",
+            "author_id": "18479513",
+            "id": "1547350923239989249",
+            "created_at": "2022-07-13T22:43:03.000Z",
+            "attachments": {
+                "media_keys": [
+                    "3_1547350855980040192"
+                ]
+            }
+        },
+    ],
+
+    "includes": {
+        "media": [
+            {
+                "type": "photo",
+                "url": "https://pbs.twimg.com/media/FXlLZ8GWQAANISh.jpg",
+                "media_key": "3_1547350855980040192",
+                "width": 1500,
+                "height": 1449
+            },
+        ]
+        "users": [
+            {
+                "profile_image_url": "https://pbs.twimg.com/profile_images/1532213550571261952/h0zZpdt1_normal.jpg",
+                "username": "MLB",
+                "verified": true,
+                "name": "MLB",
+                "id": "18479513"
+            },
+        ]
