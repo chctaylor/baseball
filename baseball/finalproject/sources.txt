@@ -33,6 +33,12 @@ Referenced to help hide API keys
 Referenced to get play button for video overlay
     - https://www.freeiconspng.com/images/play-button-icon-png
 
+Referenced to get Twitter API authorization working
+    - https://towardsdatascience.com/an-extensive-guide-to-collecting-tweets-from-twitter-api-v2-for-academic-research-using-python-3-518fcb71df2a
+
+Referenced to help with getting shadows behind image sources
+    - https://stackoverflow.com/questions/3186688/drop-shadow-for-png-image-in-css
+
 
 Below are image credits for the MLB stadiums
 

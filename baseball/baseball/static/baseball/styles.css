@@ -48,3 +48,46 @@ dt, dd {
     display: flex;
     justify-content: center;
 }
+
+/* TESTING STICKY SIDEBAR 
+.sticky-sidebar {
+    background-color: aqua;
+}
+
+.sidebar-inner {
+    background-color: red;
+    height: 5000px;
+}
+
+END TESTING */
+
+#advertisment {
+    position: sticky;
+    top: 25%;
+}
+
+/* Footer */
+
+body {
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 300px;
+    background-color: rgb(255, 255, 255);
+}
+  
+.myFooter {
+    position: absolute;
+    bottom: 0%;
+    height: auto;
+    width: 100%;
+    background-color: rgb(247, 248, 249);
+    color: black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.footerText {
+    font-size: 10px;
+    text-align: center;
+}

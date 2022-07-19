@@ -1,0 +1,23 @@
+{% extends "baseball/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="display-1" style="text-align: center;">
+                {{ pk }}
+            </h1>
+            <br>
+            <div style="text-align: center;">
+                <img src="https://c.tenor.com/sTzRKKt05nMAAAAC/two-spiderman.gif">
+            </div>
+            <br>
+            <h1 style="text-align: center;">We apologize, but there are multiple players with the name {{ pk }}!</h1>
+            <h1 style="text-align: center;">We are currently working on a solution, thank you for your understanding</h1>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -102,6 +102,22 @@ async function get_all_player_season_data (player_id, player_debut_year, player_
 
 }
 
+// Get Twitter created date and reformate
+function reformate_twitter_created_date() {
+    const all_tweet_created = document.querySelectorAll('#tweet-created')
+    console.log(all_tweet_created[0].innerHTML)
+    for (i = 0; i < all_tweet_created.length; i++) {
+        const tweet_created = all_tweet_created[i].innerHTML
+        const split_tweet_created_time = tweet_created.split("T")
+        const split_tweet_created = split_tweet_created_time[0].split("-")
+        const tweet_created_month = split_tweet_created[1]
+        const tweet_created_day = split_tweet_created[2]
+        const tweet_created_year = split_tweet_created[0]
+        const formatted_tweet_created = `${tweet_created_month} - ${tweet_created_day} -${tweet_created_year}`
+        all_tweet_created[i].innerHTML = formatted_tweet_created
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Retrieve todays and yesterdays date and Leader data
     var today = new Date();
@@ -215,6 +231,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const pro_debut_year = split_pro_debut_date[0]
     const formatted_pro_debut = `${pro_debut_month}-${pro_debut_day}-${pro_debut_year}`
     document.getElementById("pro-debut-date").innerHTML = formatted_pro_debut
+
+    reformate_twitter_created_date();
     
 });
 

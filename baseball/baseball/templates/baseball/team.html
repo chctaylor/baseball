@@ -7,14 +7,14 @@
         <div class="row">
             <div class="col">
                 <div class="card mb-3">
-                    <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img" alt="Globe Life Field">
+                    <img src="{% static 'baseball/images/stadiums/'%}{{ stadium }}.jpeg" class="card-img" alt="Globe Life Field" style="-webkit-filter: drop-shadow(2px 2px 2px #222); filter: drop-shadow(2px 2px 2px #222);">
                 </div>
                 
                 <h1 class="display-1">{{ team.name_display_full }}</h1>
                 <br>
                 <!-- Display Team info -->
                 <h2>Team Info</h2>
-                <div class="card">
+                <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                     <div class="row">
                         <div class="col">
                             <div class="card-body">
@@ -72,7 +72,7 @@
                 <!-- Display 40 Man Roster -->
                 <h2> 40 Man Roster </h2>
                 <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item">
+                    <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                         <h2 class="accordion-header" id="panelsStayOpen-headingFourty">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFourty" aria-expanded="false" aria-controls="panelsStayOpen-collapseFourty">
                             Show/Hide
@@ -255,7 +255,7 @@
                                     <!-- TESTING TEAM HITTING LEADERS -->
                                     <div class="accordion" id="hitting_leaders">
                                         <!-- Home Run Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
                                                     Home Runs (HR)
@@ -269,7 +269,7 @@
                                             </div>
                                         </div>
                                         <!-- RBI Leaders-->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
                                                     Runs Batted In (RBI)
@@ -283,7 +283,7 @@
                                             </div>
                                         </div>
                                         <!-- Batting Avg Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
                                                     Batting Average (AVG)
@@ -297,7 +297,7 @@
                                             </div>
                                         </div>
                                         <!-- Runs Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingFour">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
                                                     Runs (R)
@@ -311,7 +311,7 @@
                                             </div>
                                         </div>
                                         <!-- Hits Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingFive">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
                                                     Hits (H)
@@ -334,7 +334,7 @@
                                     <!-- TESTING PITCHING LEADERS -->
                                     <div class="accordion" id="pitching_leaders">
                                         <!-- Strike Out Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingSix">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
                                                     Strike Outs (K)
@@ -348,7 +348,7 @@
                                             </div>
                                         </div>
                                         <!-- Wins Leaders-->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
                                                     Wins (W)
@@ -362,7 +362,7 @@
                                             </div>
                                         </div>
                                         <!-- Earned Run Average Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingEight">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="false" aria-controls="panelsStayOpen-collapseEight">
                                                     Earned Run Average (ERA)
@@ -376,7 +376,7 @@
                                             </div>
                                         </div>
                                         <!-- WHIP Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingNine">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="false" aria-controls="panelsStayOpen-collapseNine">
                                                     WHIP
@@ -390,7 +390,7 @@
                                             </div>
                                         </div>
                                         <!-- Quality Starts Leaders -->
-                                        <div class="accordion-item">
+                                        <div class="accordion-item shadow-sm p-3 mb-5 bg-body rounded">
                                             <h2 class="accordion-header" id="panelsStayOpen-headingTen">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="false" aria-controls="panelsStayOpen-collapseTen">
                                                     Quality Starts (QS)
@@ -409,7 +409,7 @@
                                 </div>
                                 <div class="col">
                                     <h2 style="text-align: center;">Recent Transactions</h2>
-                                    <div class="card">
+                                    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                                         <div class="card-body" id="transactions">
                                         </div>
                                     </div>
@@ -423,7 +423,7 @@
                 <h2>Recent News</h2>
                 <div class="row">
                     <div class="col">
-                        <div class="card">
+                        <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                             <div class="card-body">
                                 {% if team_news.totalResults != 0 %}
                                     <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -461,7 +461,7 @@
                         <!-- Creating Twitter Cards -->
                         {% for tweet in team_mlb_tweets.data %}                
                             <div class="col-8">
-                                <div class="card">
+                                <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                                     <div class="container" style="padding: 15px 15px;">
                                         <div class="row" style="padding-bottom: 10px;">
                                             <!-- Populating User Info -->

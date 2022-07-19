@@ -17,14 +17,14 @@
                 <br>
                 <!-- Display player Bio information -->
                 <h2>Bio</h2>
-                <div class="card">
+                <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                     <div class="row">
                         <div class="col">
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Team:</dt>
                                     <dd class="col-8">
-                                        <span id="team-name-bio">{{ correct_team.name_display_full }}</span>
+                                        <span id="team-name-bio">{{ player_info.team_name }}</span>
                                     </dd>
                                 </dl>
                             </div> 
@@ -113,7 +113,7 @@
             <div class="row">
                 <div class="col">
                     <h2>Season Hitting Stats</h2>
-                    <div class="card">
+                    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                         <div class="card-body">
                             <table class="table table-hover">
                                 <thead>
@@ -149,7 +149,7 @@
             <div class="row">
                 <div class="col">
                     <h2>Career Hitting Stats</h2>
-                    <div class="card">
+                    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                         <div class="card-body">
                             <table class="table">
                                 <thead>
@@ -184,7 +184,7 @@
             <div class="row">
                 <div class="col">
                     <h2>Season Pitching Stats</h2>
-                    <div class="card">
+                    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                         <div class="card-body">
                             <table class="table table-hover">
                                 <thead>
@@ -220,7 +220,7 @@
             <div class="row">
                 <div class="col">
                     <h2>Career Pitching Stats</h2>
-                    <div class="card">
+                    <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                         <div class="card-body">
                             <table class="table">
                                 <thead>
@@ -255,7 +255,7 @@
         <div class="row">
             <div class="col">
                 <h2>Recent News</h2>
-                <div class="card">
+                <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                     <div class="card-body">
                         {% if player_news.totalResults != 0 %}
                             <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -285,7 +285,7 @@
             </div>
         </div>
         <br>
-        
+
         <!-- Twitter Posts -->
         <h2>Recent Twitter Posts</h2>
         <div class="row">
@@ -294,7 +294,7 @@
                 {% if player_mlb_tweets.meta.result_count != 0 %}
                     {% for tweet in player_mlb_tweets.data %}                
                         <div class="col-8">
-                            <div class="card">
+                            <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                                 <div class="container" style="padding: 15px 15px;">
                                     <div class="row" style="padding-bottom: 10px;">
                                         <!-- Populating User Info -->
@@ -369,10 +369,20 @@
                         </div>
                     </div>
                 {% endif %}
+                {% if player_twitter_name == None %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>
+                                We apologize, but {{ player.name_display_first_last }} does not have a twitter account.  
+                            </h5>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <br>
     </div>
+    <br>
 
     <script src="{% static 'baseball/player.js' %}"></script>
 {% endblock %}

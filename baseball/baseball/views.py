@@ -152,16 +152,13 @@ def player_view(request, pk):
     json_player_search_response = player_search_response.json()
 
     # Check and then Parse json response for player search to simplify HTML
+    player_name_spaces = pk.replace("_", " ")
     if json_player_search_response["search_player_all"]["queryResults"]['totalSize'] == "0":
-        player_name_spaces = pk.replace("_", " ")
         return render(request, "baseball/error.html", {'pk': player_name_spaces})
+    elif json_player_search_response["search_player_all"]["queryResults"]['totalSize'] > "1":
+        return render(request, "baseball/multi_player_error.html", {'pk': player_name_spaces})
     else:
         player = json_player_search_response["search_player_all"]["queryResults"]["row"]
-
-    # Get correct team name from team id (Cleveland Guardians/Indians issue with MLB API)
-    team_mlb_api_id = json_player_search_response["search_player_all"]["queryResults"]["row"]["team_id"]
-    correct_team = Teams.objects.get(MLB_API_ID=team_mlb_api_id)
-    print(correct_team.name_display_full)
 
 
     # Search player info from MLB API via the player id
@@ -238,21 +235,27 @@ def player_view(request, pk):
     TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
     
     player_twitter_handle = player_info["twitter_id"]
-    split_player_twitter_handle = player_twitter_handle.split("@")
-    player_twitter_name = split_player_twitter_handle[1]
+    if player_twitter_handle != "":
+        split_player_twitter_handle = player_twitter_handle.split("@")
+        player_twitter_name = split_player_twitter_handle[1]
+    
 
-    player_twitter_handle_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:" + player_twitter_name +"&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
+        player_twitter_handle_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:" + player_twitter_name +"&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
 
-    payload={}
-    headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
+        payload={}
+        headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
 
-    player_twitter_handle_response = requests.request("GET", player_twitter_handle_url, headers=headers, data=payload)
-    json_player_twitter_handle_response = player_twitter_handle_response.json()
+        player_twitter_handle_response = requests.request("GET", player_twitter_handle_url, headers=headers, data=payload)
+        json_player_twitter_handle_response = player_twitter_handle_response.json()
 
-    # Parse twitter json respone to simplify for HTML
-    player_mlb_tweets = json_player_twitter_handle_response
+        # Parse twitter json respone to simplify for HTML
+        player_mlb_tweets = json_player_twitter_handle_response
 
-    print(player_twitter_handle_response.text)
+        print(player_twitter_handle_response.text)
+    
+    else:
+        player_twitter_name = None
+        player_mlb_tweets = None
  
 
     # Variables for HTML
@@ -264,7 +267,6 @@ def player_view(request, pk):
         "season_pitching_stats": season_pitching_stats,
         "career_pitching_stats": career_pitching_stats,
         "player_news": player_news,
-        "correct_team": correct_team,
         "player_twitter_name": player_twitter_name,
         "player_mlb_tweets": player_mlb_tweets
     }

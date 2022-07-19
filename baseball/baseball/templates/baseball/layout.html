@@ -21,7 +21,7 @@
         <!-- Owl Carousel Todays Games -->
         <div id="owl-carousel" class="owl-carousel owl-theme">   
         </div>
-
+        <br>
         <div>
             {% block body %}
             {% endblock %}
@@ -36,6 +36,8 @@
 
         <!-- Needed for CSS to work as expected -->
         <link rel="stylesheet" type="text/css" href="{% static 'baseball/styles.css' %}">
+
+        {% include 'baseball/footer.html' %}
     </body>
 
     <footer>
