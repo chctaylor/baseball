@@ -30,7 +30,7 @@ def team_info(apps, schema_editor):
 
         ("Chicago Cubs", "112", "NL Central", "CHC", ["Cubs", "CubbiesOnTap"]),
         ("Cincinnati Reds", "113", "NL Central", "CIN", ["Reds", "redreporter"]),
-        ("Milwaukee Brewers", "158", "NL Central", "MIL", ["Brewers", "ReviewingTheBrew"]),
+        ("Milwaukee Brewers", "158", "NL Central", "MIL", ["Brewers", "ReviewngTheBrew"]),
         ("Pittsburgh Pirates", "134", "NL Central", "PIT", ["Pirates", "AlexJStumpf"]),
         ("St. Louis Cardinals", "138", "NL Central", "STL", ["Cardinals", "stl_baseball"]),
 

@@ -277,6 +277,21 @@ function reformate_twitter_created_date() {
     }
 }
 
+// Get news articles published date and reformate
+function reformate_article_published_date() {
+    const all_articles_published = document.querySelectorAll('#article-published')
+    for (let i = 0; i < all_articles_published.length; i++) {
+        const article_published = all_articles_published[i].innerHTML
+        const split_article_published_time = article_published.split("T")
+        const split_article_published = split_article_published_time[0].split("-")
+        const article_published_month = split_article_published[1]
+        const article_published_day = split_article_published[2]
+        const article_published_year = split_article_published[0]
+        const formatted_article_published = `${article_published_month} - ${article_published_day} - ${article_published_year}`
+        all_articles_published[i].innerHTML = formatted_article_published
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Retrieve todays and yesterdays date and Leader data
@@ -423,35 +438,21 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(data => {
 
         const recent_transactions = data.transaction_all.queryResults.row
-
-        for (index = 0; index < 10; index++) {
-            create_transaction_item(recent_transactions[index].team, recent_transactions[index].name_display_first_last, recent_transactions[index].note)
+        console.log(recent_transactions.length)
+        if (recent_transactions.length >= 10) {
+            for (index = 0; index < 10; index++) {
+                create_transaction_item(recent_transactions[index].team, recent_transactions[index].name_display_first_last, recent_transactions[index].note)
+            }
+        }
+        else {
+            for (index = 0; index < recent_transactions.length; index++) {
+                create_transaction_item(recent_transactions[index].team, recent_transactions[index].name_display_first_last, recent_transactions[index].note)
+            }
         }
     });
     
+    reformate_article_published_date();
+
     reformate_twitter_created_date();
 
-    
-});
-
-// Listen for clicks on player names and teams
-document.addEventListener('click', event => {
-
-    // Find what was clicked on
-    const element = event.target;
-
-    // If team name is clicked on in Hitting/Pitching Leaders or Transactions
-    if (element.id === 'team-info') {
-        console.log('Team info: ')
-        console.log(element.innerHTML)
-        // NEED TO SEND TEAM NAME TO TEAM VIEW AND GO TO TEAM PAGE
-    }
-
-    // If player name is clicked on in Hitting/Pitching Leaders or Transactions
-    if (element.id === 'player-info') {
-        console.log('Player info: ')
-        console.log(element.innerHTML)
-        // NEED TO SEND PLAYER NAME TO PLAYER VIEW AND GO TO PLAYER PAGE
-
-    }
 });

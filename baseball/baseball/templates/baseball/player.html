@@ -23,7 +23,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Team:</dt>
-                                    <dd class="col-8">
+                                    <dd class="col-md-8">
                                         <span id="team-name-bio">{{ player_info.team_name }}</span>
                                     </dd>
                                 </dl>
@@ -33,7 +33,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Position:</dt>
-                                    <dd class="col-8">{{ player.position }}</dd>
+                                    <dd class="col-md-8">{{ player.position }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -41,7 +41,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Jersey #:</dt>
-                                    <dd class="col-8">{{ player_info.jersey_number }}</dd>
+                                    <dd class="col-md-8">{{ player_info.jersey_number }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -59,7 +59,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Height:</dt>
-                                    <dd class="col-8">{{ player.height_feet }}'{{ player.height_inches }}"</dd>
+                                    <dd class="col-md-8">{{ player.height_feet }}'{{ player.height_inches }}"</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -67,7 +67,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Weight:</dt>
-                                    <dd class="col-8">{{ player.weight }} ILBS</dd>
+                                    <dd class="col-md-8">{{ player.weight }} ILBS</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -77,7 +77,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">AKA:</dt>
-                                    <dd class="col-8">{{ player_info.name_nick }}</dd>
+                                    <dd class="col-md-8">{{ player_info.name_nick }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -85,7 +85,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Pro Debut:</dt>
-                                    <dd class="col-8" id="pro-debut-date">{{ player.pro_debut_date }}</dd>
+                                    <dd class="col-md-8" id="pro-debut-date">{{ player.pro_debut_date }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -95,10 +95,10 @@
                                     <!-- Display High School if no College -->
                                     {% if player.college != "" %}
                                         <dt class="col">College:</dt>
-                                        <dd class="col-8">{{ player.college }}</dd>
+                                        <dd class="col-md-8">{{ player.college }}</dd>
                                     {% else %}
                                         <dt class="col">High School:</dt>
-                                        <dd class="col-8">{{ player.high_school }}</dd>
+                                        <dd class="col-md-8">{{ player.high_school }}</dd>
                                     {% endif %}
                                 </dl>
                             </div> 
@@ -269,8 +269,12 @@
                                                 <p class="card-text">{{ article.description }}</p>
                                                 {% if article.source.name == "ESPN" %}
                                                     <a href="{{ article.url }}"><img src="http://a.espncdn.com/i/apis/attribution/espn-black_50.png"></a>
+                                                    <span style="float: right;"><small class="text-muted">Published: <span id="article-published">{{ article.publishedAt }}</span></small></span>
                                                 {% else %}
-                                                    <p class="card-text"><small class="text-muted">Source: {{ article.source.name }}</small></p>
+                                                    <p class="card-text">
+                                                        <small class="text-muted">Source: {{ article.source.name }}</small>
+                                                        <span style="float: right;"><small class="text-muted">Published: <span id="article-published">{{ article.publishedAt }}</span></small></span>
+                                                    </p>
                                                 {% endif %}
                                             </div>
                                         </div>  

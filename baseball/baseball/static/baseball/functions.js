@@ -49,20 +49,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Retrieve all games playing today
         const games = data.mlb_broadcast_info.queryResults.row
-        
-        for (index = 0; index < games.length; index++) {
-            
-            // Format time from data 
-            var game_time = games[index].game_time_local;
-            var day = game_time.split('T')
+        // Check to see if no games are playing
+        if (data.mlb_broadcast_info.queryResults.totalSize != 0) {
+            for (index = 0; index < games.length; index++) {
+                
+                // Format time from data 
+                var game_time = games[index].game_time_local;
+                var day = game_time.split('T')
 
-            // Test for duplicates and create game card * IF GAME NOT NEXT EACHOTHER DOES NOT CATCH
-            try {
-                if (games[index].home_team_full == games[index+1].home_team_full) continue;
-                create_owl_carousel_item(day[1].slice(0,5), games[index].away_team_full, games[index].home_team_full);
-            }
-            catch {
-                create_owl_carousel_item(day[1].slice(0,5), games[index].away_team_full, games[index].home_team_full);
+                // Test for duplicates and create game card * IF GAME NOT NEXT EACHOTHER DOES NOT CATCH
+                try {
+                    if (games[index].home_team_full == games[index+1].home_team_full) continue;
+                    create_owl_carousel_item(day[1].slice(0,5), games[index].away_team_full, games[index].home_team_full);
+                }
+                catch {
+                    create_owl_carousel_item(day[1].slice(0,5), games[index].away_team_full, games[index].home_team_full);
+                }
             }
         }
 

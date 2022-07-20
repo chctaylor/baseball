@@ -200,8 +200,7 @@ async function create_recent_team_transaction(team_name, player_name, note_detai
 // Get Twitter created date and reformate
 function reformate_twitter_created_date() {
     const all_tweet_created = document.querySelectorAll('#tweet-created')
-    console.log(all_tweet_created[0].innerHTML)
-    for (i = 0; i < all_tweet_created.length; i++) {
+    for (let i = 0; i < all_tweet_created.length; i++) {
         const tweet_created = all_tweet_created[i].innerHTML
         const split_tweet_created_time = tweet_created.split("T")
         const split_tweet_created = split_tweet_created_time[0].split("-")
@@ -213,12 +212,29 @@ function reformate_twitter_created_date() {
     }
 }
 
+// Get news articles published date and reformate
+function reformate_article_published_date() {
+    const all_articles_published = document.querySelectorAll('#article-published')
+    for (let i = 0; i < all_articles_published.length; i++) {
+        const article_published = all_articles_published[i].innerHTML
+        const split_article_published_time = article_published.split("T")
+        const split_article_published = split_article_published_time[0].split("-")
+        const article_published_month = split_article_published[1]
+        const article_published_day = split_article_published[2]
+        const article_published_year = split_article_published[0]
+        const formatted_article_published = `${article_published_month} - ${article_published_day} - ${article_published_year}`
+        all_articles_published[i].innerHTML = formatted_article_published
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Get team id of current team page
     get_api_team_id();
 
     reformate_twitter_created_date();
+
+    reformate_article_published_date();
 });
 
 

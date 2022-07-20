@@ -105,7 +105,6 @@ async function get_all_player_season_data (player_id, player_debut_year, player_
 // Get Twitter created date and reformate
 function reformate_twitter_created_date() {
     const all_tweet_created = document.querySelectorAll('#tweet-created')
-    console.log(all_tweet_created[0].innerHTML)
     for (i = 0; i < all_tweet_created.length; i++) {
         const tweet_created = all_tweet_created[i].innerHTML
         const split_tweet_created_time = tweet_created.split("T")
@@ -115,6 +114,21 @@ function reformate_twitter_created_date() {
         const tweet_created_year = split_tweet_created[0]
         const formatted_tweet_created = `${tweet_created_month} - ${tweet_created_day} -${tweet_created_year}`
         all_tweet_created[i].innerHTML = formatted_tweet_created
+    }
+}
+
+// Get news articles published date and reformate
+function reformate_article_published_date() {
+    const all_articles_published = document.querySelectorAll('#article-published')
+    for (let i = 0; i < all_articles_published.length; i++) {
+        const article_published = all_articles_published[i].innerHTML
+        const split_article_published_time = article_published.split("T")
+        const split_article_published = split_article_published_time[0].split("-")
+        const article_published_month = split_article_published[1]
+        const article_published_day = split_article_published[2]
+        const article_published_year = split_article_published[0]
+        const formatted_article_published = `${article_published_month} - ${article_published_day} - ${article_published_year}`
+        all_articles_published[i].innerHTML = formatted_article_published
     }
 }
 
@@ -232,6 +246,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const formatted_pro_debut = `${pro_debut_month}-${pro_debut_day}-${pro_debut_year}`
     document.getElementById("pro-debut-date").innerHTML = formatted_pro_debut
 
+    reformate_article_published_date();
+
     reformate_twitter_created_date();
     
 });
@@ -242,7 +258,7 @@ document.addEventListener('click', event => {
     // Find what was clicked on
     const element = event.target;
 
-    // If player name is clicked on in 40 Man Roster take them to player page
+    // If team name is clicked on in player bio take them to team page
     if (element.id === 'team-name-bio') {
         const url_player_name = element.innerHTML.replaceAll(" ", "_")
         location.href = `/team/${url_player_name}`;

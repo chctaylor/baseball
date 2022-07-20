@@ -20,7 +20,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Venue:</dt>
-                                    <dd class="col-8">{{ team.venue_name }}</dd>
+                                    <dd class="col-md-8">{{ team.venue_name }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -28,7 +28,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Division:</dt>
-                                    <dd class="col-8">{{ team.division_full }}</dd>
+                                    <dd class="col-md-8">{{ team.division_full }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Phone Number:</dt>
-                                    <dd class="col-8">{{ team.phone_number }}</dd>
+                                    <dd class="col-md-8">{{ team.phone_number }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -46,7 +46,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">Address:</dt>
-                                    <dd class="col-8">{{ team.address_line1 }}</dd>
+                                    <dd class="col-md-8">{{ team.address_line1 }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -54,7 +54,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">City:</dt>
-                                    <dd class="col-8">{{ team.city }}</dd>
+                                    <dd class="col-md-8">{{ team.city }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -62,7 +62,7 @@
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col">State:</dt>
-                                    <dd class="col-8">{{ team.state }}</dd>
+                                    <dd class="col-md-8">{{ team.state }}</dd>
                                 </dl>
                             </div> 
                         </div>
@@ -407,7 +407,7 @@
                                     <br>
 
                                 </div>
-                                <div class="col">
+                                <div class="col-md">
                                     <h2 style="text-align: center;">Recent Transactions</h2>
                                     <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                                         <div class="card-body" id="transactions">
@@ -437,8 +437,12 @@
                                                         <p class="card-text">{{ article.description }}</p>
                                                         {% if article.source.name == "ESPN" %}
                                                             <a href="{{ article.url }}"><img src="http://a.espncdn.com/i/apis/attribution/espn-black_50.png"></a>
-                                                        {% else %}
-                                                            <p class="card-text"><small class="text-muted">Source: {{ article.source.name }}</small></p>
+                                                            <span style="float: right;"><small class="text-muted">Published: <span id="article-published">{{ article.publishedAt }}</span></small></span>
+                                                        {% else %}  
+                                                            <p class="card-text">
+                                                                <small class="text-muted">Source: {{ article.source.name }}</small>
+                                                                <span style="float: right;"><small class="text-muted">Published: <span id="article-published">{{ article.publishedAt }}</span></small></span>
+                                                            </p>
                                                         {% endif %}
                                                     </div>
                                                 </div>  
