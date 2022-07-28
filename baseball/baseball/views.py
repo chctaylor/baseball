@@ -1,8 +1,12 @@
+from django.contrib.auth import authenticate, login, logout
+from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
 
 from newsapi import NewsApiClient
 
+from django.contrib.auth.models import User
 from .models import Teams, TeamTwitter
 
 from . import keys
@@ -18,7 +22,7 @@ def index(request):
 
     # Get 10 latest articles pertaining to MLB
     all_articles = newsapi.get_everything(
-        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf OR nba OR basketball)',
+        q='(baseball OR MLB) NOT (college OR betting OR soccer OR nascar OR wnba OR pga OR football OR tennis OR golf OR nba OR basketball OR nfl)',
         domains='mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com',
         sort_by='publishedAt',
         page_size=10
@@ -104,8 +108,6 @@ def team_view(request, pk):
     # Simplify for HTML
     team_news = json_team_news_response
 
-    # TESTING TWITTER FOR TEAMS
-
     # Define Twitter authentication token and search twitter for team related tweets
     TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
 
@@ -124,9 +126,6 @@ def team_view(request, pk):
     team_mlb_tweets = json_team_twitter_handles_response
 
     print(team_twitter_handles_response.text) 
-
-    # END TESTING
-
 
     context = {
         'stadium':stadium, 
@@ -160,7 +159,6 @@ def player_view(request, pk):
     else:
         player = json_player_search_response["search_player_all"]["queryResults"]["row"]
 
-
     # Search player info from MLB API via the player id
     player_id = json_player_search_response["search_player_all"]["queryResults"]["row"]["player_id"]
 
@@ -192,7 +190,6 @@ def player_view(request, pk):
     season_pitching_stats = None
     career_pitching_stats = None
 
-    
     # Get the season/career stats based on current player position
     if player_position != "P":
         season_hitting_response = requests.request("GET", url_season_hitting, headers=headers, data=payload)
@@ -230,7 +227,6 @@ def player_view(request, pk):
     # Simplify for HTML
     player_news = json_player_news_response
 
-    # TESTING TWITTER ACCOUNT
     # Define Twitter authentication token and search twitter for player tweets
     TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
     
@@ -257,7 +253,6 @@ def player_view(request, pk):
         player_twitter_name = None
         player_mlb_tweets = None
  
-
     # Variables for HTML
     context = {
         "player": player, 
@@ -272,3 +267,58 @@ def player_view(request, pk):
     }
 
     return render(request, "baseball/player.html", context)
+
+
+def login_view(request):
+    if request.method == "POST":
+
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "baseball/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "baseball/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("index"))
+
+
+def register_view(request):
+    # Get and save registration info 
+    if request.method == "POST":
+        first_name = request.POST["firstname"].capitalize()
+        last_name = request.POST["lastname"].capitalize()
+        username = request.POST["username"]
+        email = request.POST["email"]
+
+        # Ensure passwords match
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "baseball/register.html", {
+                "message": "Passwords do not match. Try again."
+            })
+
+        # Attempt to create new user
+        try:
+            user = User.objects.create_user(username, email, password, first_name=first_name, last_name=last_name)
+            user.save()
+        except IntegrityError:
+            return render(request, "baseball/register.html", {
+                "message": "Username already taken. Try again."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "baseball/register.html")

@@ -11,12 +11,8 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">User Profile</a>
-          </li>
 
           <!-- Drop Down Menu for Teams -->
-          <!-- TO DO: set links / pass in api for names? -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Teams
@@ -81,11 +77,37 @@
                         <ul><a class="dropdown-item" href="/team/San_Francisco_Giants">San Francisco Giants</a></ul>
                     </ul>
                 </ul>
+                <br>
             </ul>
+          </li>
+          <!-- Display user profile if signed in-->
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">User Profile</a>
+            </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <span class="nav-link" href="#" style="color: blue;">Signed in as: {{ request.user.first_name }}</span>
           </li>
 
         </ul>
-        
+        <!-- Login/Logout/Register depending on if a user is signed in -->
+        {% if user.is_authenticated %}
+          <span class="navbar-text">
+            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+          </span>
+        {% else %}
+          <span class="navbar-text">
+            <a class="nav-link" href="{% url 'login' %}"> Login </a>
+          </span>
+          <span class="navbar-text">
+            /
+          </span>
+          <span class="navbar-text">
+            <a class="nav-link" href="{% url 'register' %}"> Register </a>
+          </span>
+        {% endif %}
       </div>
     </div>
   </nav>

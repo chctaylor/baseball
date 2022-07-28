@@ -3,3 +3,6 @@ keys.py
 
 # Testing adding teams to database
 test.txt
+
+# Test database
+db.sqlite3

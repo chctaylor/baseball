@@ -39,6 +39,10 @@ Referenced to get Twitter API authorization working
 Referenced to help with getting shadows behind image sources
     - https://stackoverflow.com/questions/3186688/drop-shadow-for-png-image-in-css
 
+Referenced to help with saving a new registered user in the User model
+    - https://stackoverflow.com/questions/10372877/how-to-create-a-user-in-django#:~:text=The%20correct%20way%20to%20create,of%20the%20password%2C%20etc..
+    
+
 
 Below are image credits for the MLB stadiums
 
