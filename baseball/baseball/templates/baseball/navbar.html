@@ -83,7 +83,7 @@
           <!-- Display user profile if signed in-->
           {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="#">User Profile</a>
+              <a class="nav-link" href="{% url 'profile' request.user.id %}">User Profile</a>
             </li>
           {% endif %}
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Teams(models.Model):
@@ -16,3 +17,10 @@ class TeamTwitter(models.Model):
 
     def __str__(self):
         return f"{self.team_id} handle: {self.handle}"
+
+class FavoriteTeams(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorite_teams")
+    team_name = models.ForeignKey(Teams, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} favortied the {self.team_name}"

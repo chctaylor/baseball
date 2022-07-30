@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -7,7 +8,7 @@ from django.urls import reverse
 from newsapi import NewsApiClient
 
 from django.contrib.auth.models import User
-from .models import Teams, TeamTwitter
+from .models import Teams, TeamTwitter, FavoriteTeams
 
 from . import keys
 
@@ -42,8 +43,6 @@ def index(request):
     # Parse twitter json respone to simplify for HTML
     all_mlb_tweets = json_mlb_twitter_handles_response
 
-    print(mlb_twitter_handles_response.text)
-
     context = {'all_articles':all_articles, 'all_mlb_tweets':all_mlb_tweets}
 
     return render(request, "baseball/index.html", context)
@@ -66,8 +65,18 @@ def team_view(request, pk):
         team_twitter = TeamTwitter.objects.filter(team_id=team_info.id)
     else:
         return render(request, "baseball/error.html", {'pk': team_name_spaces})
-    print(team_info.MLB_API_ID)
-    print(team_twitter[1].handle)
+
+    # Favorite/Unfavorite team
+    if request.method == 'POST':
+        if request.POST.get("button") == "unfavorite":
+            print("unfavorite button works")
+            FavoriteTeams.objects.get(user=request.user.id, team_name=team_info.id).delete()
+
+        elif request.POST.get("button") == "favorite":
+            print("favorite button works")
+            FavoriteTeams(user=request.user, team_name=team_info).save()
+        else:
+            return HttpResponse("We apologize, but there was an error. Please Try again.")
 
     # Search Team from MLB API
     url_team_search = "http://lookup-service-prod.mlb.com/json/named.team_all_season.bam?sport_code='mlb'&all_star_sw='N'&season='2022'&team_id='" + team_info.MLB_API_ID + "'"
@@ -125,7 +134,11 @@ def team_view(request, pk):
     # Parse twitter json respone to simplify for HTML
     team_mlb_tweets = json_team_twitter_handles_response
 
-    print(team_twitter_handles_response.text) 
+    # Determine if current user is following team
+    user_favorited = 'no'
+
+    if FavoriteTeams.objects.filter(user=request.user.id, team_name=team_info.id).exists():
+        user_favorited = 'yes'
 
     context = {
         'stadium':stadium, 
@@ -134,6 +147,7 @@ def team_view(request, pk):
         "team_roster":team_roster,
         "team_news":team_news,
         "team_mlb_tweets":team_mlb_tweets,
+        "user_favorited": user_favorited,
     }
 
     return render(request, "baseball/team.html", context)
@@ -267,6 +281,71 @@ def player_view(request, pk):
     }
 
     return render(request, "baseball/player.html", context)
+
+
+@login_required
+def profile_view(request, pk):
+    user = User.objects.get(id=pk)
+
+    # Check if profile belongs to current user
+    if user != request.user:
+        return HttpResponse("Sorry you are trying to view another person's user profile and this is a no-no")
+
+    # Get user's favorite teams
+    user_favorite_teams = user.favorite_teams.all()
+
+    # Get 2 latest articles pertaining to each favorited team
+    favorite_teams_articles = []
+
+    NEWS_API_KEY = keys.NEWS_API_KEY
+
+    for team in user_favorite_teams:
+        current_team = team.team_name.name_display_full
+        url_team_news = "https://newsapi.org/v2/everything?domains=mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com&sortBy=publishedAt&searchIn=title,description&pageSize=2&q=" + current_team + ""
+
+        payload={}
+        headers = {
+        'X-Api-Key': NEWS_API_KEY
+        }
+
+        team_news_response = requests.request("GET", url_team_news, headers=headers, data=payload)
+        json_team_news_response = team_news_response.json()
+        team_news = json_team_news_response
+
+        favorite_teams_articles.append(team_news)
+
+    # Define Twitter authentication token and search twitter for favorited teams related tweets
+    TWITTER_API_BEARER_TOKEN = keys.TWITTER_API_BEARER_TOKEN
+
+    # Get favorited teams tweets
+    favorite_teams_tweets = []
+
+    for team in user_favorite_teams:
+        # Get favorited team twitter handle and search recent tweets
+        current_team_id = Teams.objects.get(name_display_full=team.team_name.name_display_full)
+        team_twitter = TeamTwitter.objects.filter(team_id=current_team_id.id)
+        team_twitter_handle = team_twitter[0].handle
+
+        team_twitter_handles_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:" + team_twitter_handle + "&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
+
+        payload={}
+        headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
+
+        team_twitter_handles_response = requests.request("GET", team_twitter_handles_url, headers=headers, data=payload)
+        json_team_twitter_handles_response = team_twitter_handles_response.json()
+
+        team_tweets = json_team_twitter_handles_response
+
+        favorite_teams_tweets.append(team_tweets)
+
+    context = {
+        "user": user,
+        "user_favorite_teams": user_favorite_teams,
+        "favorite_teams_articles": favorite_teams_articles,
+        "favorite_teams_tweets": favorite_teams_tweets,
+    }
+
+    return render(request, "baseball/profile.html", context)
 
 
 def login_view(request):
