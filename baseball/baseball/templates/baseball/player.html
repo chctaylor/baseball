@@ -3,6 +3,8 @@
 {% load static %}
 
 {% block body %}
+    <!-- Used for the favorite star -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <div class="container">
         <div class="row">
@@ -13,6 +15,17 @@
                 <h5>
                   <a href="https://twitter.com/{{ player_twitter_name }}">{{ player_info.twitter_id }}</a>
                 </h5>
+                {% if request.user.is_authenticated %}
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {% if user_favorited == 'yes' %}
+                            <button name="button" value="unfavorite" class="fa fa-star btn btn-lg btn-warning"></button>
+                        {% elif user_favorited == 'no' %}
+                            <button name="button" value="favorite" class="fa fa-star btn btn-lg btn-outline-warning"></button>
+                        {% endif %}
+                    </form>
+                {% endif %}
                 <hr>
                 <br>
                 <!-- Display player Bio information -->

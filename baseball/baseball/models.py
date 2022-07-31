@@ -24,3 +24,11 @@ class FavoriteTeams(models.Model):
 
     def __str__(self):
         return f"{self.user} favortied the {self.team_name}"
+
+class FavoritePlayers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorite_players")
+    player_name = models.CharField(max_length=64)
+    MLB_API_ID = models.CharField(max_length=16)
+
+    def __str__(self):
+        return f"{self.user} favortied {self.player_name}"

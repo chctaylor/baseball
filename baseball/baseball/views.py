@@ -8,7 +8,7 @@ from django.urls import reverse
 from newsapi import NewsApiClient
 
 from django.contrib.auth.models import User
-from .models import Teams, TeamTwitter, FavoriteTeams
+from .models import Teams, TeamTwitter, FavoriteTeams, FavoritePlayers
 
 from . import keys
 
@@ -69,11 +69,9 @@ def team_view(request, pk):
     # Favorite/Unfavorite team
     if request.method == 'POST':
         if request.POST.get("button") == "unfavorite":
-            print("unfavorite button works")
             FavoriteTeams.objects.get(user=request.user.id, team_name=team_info.id).delete()
 
         elif request.POST.get("button") == "favorite":
-            print("favorite button works")
             FavoriteTeams(user=request.user, team_name=team_info).save()
         else:
             return HttpResponse("We apologize, but there was an error. Please Try again.")
@@ -187,6 +185,19 @@ def player_view(request, pk):
     # Parse json response for player info to simplify HTML
     player_info = json_player_info_response["player_info"]["queryResults"]["row"]
 
+    # Favorite/Unfavorite team
+    if request.method == 'POST':
+        if request.POST.get("button") == "unfavorite":
+            print("unfavorite button works")
+            FavoritePlayers.objects.get(user=request.user.id, player_name=player_info["name_display_first_last"], MLB_API_ID=player_id).delete()
+
+        elif request.POST.get("button") == "favorite":
+            print("favorite button works")
+            FavoritePlayers(user=request.user, player_name=player_info["name_display_first_last"], MLB_API_ID=player_id).save()
+        else:
+            return HttpResponse("We apologize, but there was an error. Please Try again.")
+
+
     # Search Player Season and Career Stats
     url_season_hitting = "http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='2022'&player_id='" + player_id + "'"
     url_career_hitting = "http://lookup-service-prod.mlb.com/json/named.sport_career_hitting.bam?league_list_id='mlb'&game_type='R'&player_id='" + player_id + "'"
@@ -260,12 +271,20 @@ def player_view(request, pk):
 
         # Parse twitter json respone to simplify for HTML
         player_mlb_tweets = json_player_twitter_handle_response
-
-        print(player_twitter_handle_response.text)
     
     else:
         player_twitter_name = None
         player_mlb_tweets = None
+
+    
+    # Determine if current user is following player
+    user_favorited = 'no'
+
+    if FavoritePlayers.objects.filter(user=request.user.id, MLB_API_ID=player_id).exists():
+        user_favorited = 'yes'
+    
+    print(user_favorited)
+
  
     # Variables for HTML
     context = {
@@ -277,7 +296,8 @@ def player_view(request, pk):
         "career_pitching_stats": career_pitching_stats,
         "player_news": player_news,
         "player_twitter_name": player_twitter_name,
-        "player_mlb_tweets": player_mlb_tweets
+        "player_mlb_tweets": player_mlb_tweets,
+        "user_favorited": user_favorited,
     }
 
     return render(request, "baseball/player.html", context)
@@ -337,12 +357,78 @@ def profile_view(request, pk):
         team_tweets = json_team_twitter_handles_response
 
         favorite_teams_tweets.append(team_tweets)
+    
+    # Get favorited players
+    user_favorite_players = user.favorite_players.all()
+
+    # Get 2 latest articles pertaining to each favorited player
+    favorite_players_articles = []
+
+    for player in user_favorite_players:
+        current_player = player.player_name
+        url_player_news = "https://newsapi.org/v2/everything?domains=mlb.com, espn.com, foxsports.com, nbcsports.com, cbssports.com&sortBy=publishedAt&searchIn=title,description&pageSize=2&q=" + current_player + ""
+
+        payload={}
+        headers = {
+        'X-Api-Key': NEWS_API_KEY
+        }
+
+        player_news_response = requests.request("GET", url_player_news, headers=headers, data=payload)
+        json_player_news_response = player_news_response.json()
+
+        player_news = json_player_news_response
+
+        if player_news["totalResults"] != 0:
+            favorite_players_articles.append(player_news)
+
+    # Get favorited players tweets
+    favorite_players_tweets = []
+
+    for player in user_favorite_players:
+
+        # Get player Twitter handle from MLB API
+        current_player_MLB_API_ID = player.MLB_API_ID
+
+        url_player_info = "http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='" + current_player_MLB_API_ID + "'"
+
+        payload = {}
+        headers = {}
+
+        player_info_response = requests.request("GET", url_player_info, headers=headers, data=payload)
+        json_player_info_response = player_info_response.json()
+
+        # Parse json response for player info to simplify HTML
+        player_twitter_handle = json_player_info_response["player_info"]["queryResults"]["row"]["twitter_id"]
+
+        if player_twitter_handle != "":
+            split_player_twitter_handle = player_twitter_handle.split("@")
+            player_twitter_name = split_player_twitter_handle[1]
+        
+
+            player_twitter_handle_url = "https://api.twitter.com/2/tweets/search/recent?query=-is:retweet from:" + player_twitter_name +"&max_results=10&tweet.fields=created_at,entities&expansions=author_id,attachments.media_keys&media.fields=height,width,url,preview_image_url,duration_ms&user.fields=profile_image_url,verified"
+
+            payload={}
+            headers = {"Authorization": "Bearer {}".format(TWITTER_API_BEARER_TOKEN)}
+
+            player_twitter_handle_response = requests.request("GET", player_twitter_handle_url, headers=headers, data=payload)
+            json_player_twitter_handle_response = player_twitter_handle_response.json()
+
+            # Parse twitter json respone to simplify for HTML
+            player_tweets = json_player_twitter_handle_response
+
+            if player_tweets["meta"]["result_count"] != 0:
+                favorite_players_tweets.append(player_tweets)
+
+
 
     context = {
         "user": user,
         "user_favorite_teams": user_favorite_teams,
         "favorite_teams_articles": favorite_teams_articles,
         "favorite_teams_tweets": favorite_teams_tweets,
+        "user_favorite_players": user_favorite_players,
+        "favorite_players_articles": favorite_players_articles,
+        "favorite_players_tweets": favorite_players_tweets,
     }
 
     return render(request, "baseball/profile.html", context)
