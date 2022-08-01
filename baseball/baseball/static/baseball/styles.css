@@ -3,12 +3,12 @@
     background-color: rgb(247, 248, 249)
 }
 
-/* Players and Teams */
-#team-info, #player-info, #player-name-40, #team-name-bio {
+/* Players, Teams, and User Pages */
+#team-info, #player-info, #player-name-40, #team-name-bio, #favorite-team-name-full, #favorite-player-name, #favorite-player-team-abbrev {
     cursor: pointer;
 }
 
-#team-info:hover, #player-info:hover, #player-name-40:hover, #team-name-bio:hover {
+#team-info:hover, #player-info:hover, #player-name-40:hover, #team-name-bio:hover, #favorite-team-name-full:hover, #favorite-player-name:hover, #favorite-player-team-abbrev:hover {
     text-decoration: underline;
 }
 
@@ -25,8 +25,6 @@ a:hover {
 dt, dd {
     font-size: 21px;
 }
-
-/* style="color: black; background-color:rgba(219, 219, 219, 0.75); text-align: center; padding-left: 5px;" */
 
 #team-stadium {
     color: black;
@@ -49,22 +47,12 @@ dt, dd {
     justify-content: center;
 }
 
-/* TESTING STICKY SIDEBAR 
-.sticky-sidebar {
-    background-color: aqua;
-}
-
-.sidebar-inner {
-    background-color: red;
-    height: 5000px;
-}
-
-END TESTING */
-
 #advertisment {
     position: sticky;
     top: 25%;
 }
+
+
 
 /* Footer */
 

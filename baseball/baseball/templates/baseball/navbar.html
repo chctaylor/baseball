@@ -86,11 +86,6 @@
               <a class="nav-link" href="{% url 'profile' request.user.id %}">User Profile</a>
             </li>
           {% endif %}
-
-          <li class="nav-item">
-            <span class="nav-link" href="#" style="color: blue;">Signed in as: {{ request.user.first_name }}</span>
-          </li>
-
         </ul>
         <!-- Login/Logout/Register depending on if a user is signed in -->
         {% if user.is_authenticated %}

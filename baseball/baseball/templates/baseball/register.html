@@ -6,6 +6,7 @@
 
     <div class="container col-md-5">
         <div class="card text-center">
+            <br>
             <h2 style="text-align: center;">Register</h2>
 
             {% if message %}
@@ -15,33 +16,35 @@
                 <form action="{% url 'register' %}" method="post" autocomplete="off">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <input class="form-control" autofocus autocapitalize="words" type="text" name="firstname" placeholder="First Name" required>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input class="form-control" id="floatingFirst" autocapitalize="words" type="text" name="firstname" placeholder="First Name" required>
+                            <label for="floatingFirst" style="padding-left: 25px;">First Name</label>
                         </div>
-                        <div class="form-group col-md-6">
-                            <input class="form-control" autocapitalize="words" type="text" name="lastname" placeholder="Last Name" required>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input class="form-control" id="floatingLast" autocapitalize="words" type="text" name="lastname" placeholder="Last Name" required>
+                            <label for="floatingLast" style="padding-left: 25px;">Last Name</label>
                         </div>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <input class="form-control" type="email" name="email" placeholder="Email Address" required>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="floatingEmail" type="email" name="email" placeholder="Email Address" required>
+                        <label for="floatingEmail">Email Address</label>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="username" placeholder="Username" required>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="floatingUsername" type="text" name="username" placeholder="Username" required>
+                        <label for="floatingUsername">Username</label>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <input class="form-control" type="password" name="password" placeholder="Password" required>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="floatingPassword" type="password" name="password" placeholder="Password" required>
+                        <label for="floatingPassword">Password</label>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password" required>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="floatingConfirmation" type="password" name="confirmation" placeholder="Confirm Password" required>
+                        <label for="floatingConfirmation">Confirm Password</label>
                     </div>
                     <br>
                     <input class="btn btn-primary" type="submit" value="Register">
                 </form>
-
+                <br>
                 Already have an account? <a href="{% url 'login' %}">Log In here.</a>
 
             </div>

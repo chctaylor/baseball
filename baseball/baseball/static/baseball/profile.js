@@ -31,13 +31,41 @@ function reformate_article_published_date() {
 function hide_favortie_team_info() {
     document.querySelector('#favorite-team-articles').style.display = 'none';
     document.querySelector('#favorite-team-tweets').style.display = 'none';
-    document.querySelector('#favorite-team-show-hide').innerHTML = 'Show Favorite Team Info';
+    document.querySelector('#favorite-team-show-hide').innerHTML = 'Show Favorite Teams News/Media';
 }
 
 function show_favortie_team_info() {
     document.querySelector('#favorite-team-articles').style.display = 'block';
     document.querySelector('#favorite-team-tweets').style.display = 'block';
-    document.querySelector('#favorite-team-show-hide').innerHTML = 'Hide Favorite Team Info';
+    document.querySelector('#favorite-team-show-hide').innerHTML = 'Hide Favorite Teams News/Media';
+}
+
+function hide_favortie_player_info() {
+    document.querySelector('#favorite-player-articles').style.display = 'none';
+    document.querySelector('#favorite-player-tweets').style.display = 'none';
+    document.querySelector('#favorite-player-show-hide').innerHTML = 'Show Favorite Players News/Media';
+}
+
+function show_favortie_player_info() {
+    document.querySelector('#favorite-player-articles').style.display = 'block';
+    document.querySelector('#favorite-player-tweets').style.display = 'block';
+    document.querySelector('#favorite-player-show-hide').innerHTML = 'Hide Favorite Players News/Media';
+}
+
+function favorite_team_link (element) {
+    const team_name_link = element.innerHTML.replaceAll(" ", "_")
+    location.href = `/team/${team_name_link}`;
+}
+
+function favorite_player_link (element) {
+    const player_name_link = element.replaceAll(" ", "_")
+    location.href = `/player/${player_name_link}`;
+}
+
+function favorite_player_team_link (element) {
+    const player_team_name_full = document.getElementById(`favorite-player-team-full-${element}`).innerHTML
+    const player_team_link = player_team_name_full.replaceAll(" ", "_")
+    location.href = `/team/${player_team_link}`;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -53,15 +81,43 @@ document.addEventListener('click', event => {
     // Find what was clicked on
     const element = event.target;
 
-    // If team name is clicked on in player bio take them to team page
+    // If hide/show favorite team button is clicked
     if (element.id === 'favorite-team-show-hide') {
         console.log(element.innerHTML)
-        if (element.innerHTML == 'Hide Favorite Team Info') {
+        if (element.innerHTML == 'Hide Favorite Teams News/Media') {
             hide_favortie_team_info();
         }
-        else if (element.innerHTML == 'Show Favorite Team Info') {
+        else if (element.innerHTML == 'Show Favorite Teams News/Media') {
             show_favortie_team_info();
         }
 
+    }
+
+    // If hide/show favorite player button is clicked
+    if (element.id === 'favorite-player-show-hide') {
+        console.log(element.innerHTML)
+        if (element.innerHTML == 'Hide Favorite Players News/Media') {
+            hide_favortie_player_info();
+        }
+        else if (element.innerHTML == 'Show Favorite Players News/Media') {
+            show_favortie_player_info();
+        }
+
+    }
+
+
+    // If favorited team name is clicked
+    if (element.id === 'favorite-team-name-full') {
+        favorite_team_link(element);
+    }
+
+    // If favorited player name is clicked
+    if (element.id === 'favorite-player-name') {
+        favorite_player_link(element.innerHTML);
+    }
+
+    // If favorited player's team abbrev is clicked
+    if (element.id === 'favorite-player-team-abbrev') {
+        favorite_player_team_link(element.innerHTML);
     }
 });

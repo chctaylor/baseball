@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             rewind: true,
             dots: false,
             mouseDrag: false,
+            stagePadding: 10,
             responsive:{
                 0:{
                     items:1

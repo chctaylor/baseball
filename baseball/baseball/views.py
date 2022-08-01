@@ -189,11 +189,25 @@ def player_view(request, pk):
     if request.method == 'POST':
         if request.POST.get("button") == "unfavorite":
             print("unfavorite button works")
-            FavoritePlayers.objects.get(user=request.user.id, player_name=player_info["name_display_first_last"], MLB_API_ID=player_id).delete()
+            FavoritePlayers.objects.get(
+                user=request.user.id, 
+                player_name=player_info["name_display_first_last"], 
+                player_position=player_info["primary_position_txt"],
+                player_team_full=player_info["team_name"],
+                player_team_abbrev=player_info["team_abbrev"],
+                MLB_API_ID=player_id
+                ).delete()
 
         elif request.POST.get("button") == "favorite":
             print("favorite button works")
-            FavoritePlayers(user=request.user, player_name=player_info["name_display_first_last"], MLB_API_ID=player_id).save()
+            FavoritePlayers(
+                user=request.user, 
+                player_name=player_info["name_display_first_last"], 
+                player_position=player_info["primary_position_txt"],
+                player_team_full=player_info["team_name"],
+                player_team_abbrev=player_info["team_abbrev"],
+                MLB_API_ID=player_id
+                ).save()
         else:
             return HttpResponse("We apologize, but there was an error. Please Try again.")
 
@@ -378,7 +392,8 @@ def profile_view(request, pk):
 
         player_news = json_player_news_response
 
-        if player_news["totalResults"] != 0:
+        # DOUBLE CHECK THIS WORKS WHEN NEWS API IS NOT RATE LIMITED
+        if player_news["status"] != "error" and player_news["totalResults"] != 0:
             favorite_players_articles.append(player_news)
 
     # Get favorited players tweets

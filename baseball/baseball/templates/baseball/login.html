@@ -6,26 +6,29 @@
 
     <div class="container col-md-4">
         <div class="card text-center">
+            <br>
             <h2 style="text-align: center;">Login</h2>
 
             {% if message %}
                 <div>{{ message }}</div>
             {% endif %}
-            
+
             <div class="card-body">
                 <form action="{% url 'login' %}" method="post">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="floatingInput" type="text" name="username" placeholder="Username">
+                        <label for="floatingInput">Username</label>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <input class="form-control" type="password" name="password" placeholder="Password">
+                    
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="floatingPassword" type="password" name="password" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
                     </div>
                     <br>
                     <input class="btn btn-primary" type="submit" value="Login">
                 </form>
-            
+                <br>
                 Don't have an account? <a href="{% url 'register' %}">Register here.</a>
             </div>
         </div>

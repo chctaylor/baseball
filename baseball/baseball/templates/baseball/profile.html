@@ -7,31 +7,82 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                
                 <h1 class="display-1">Hello, {{ user.first_name }}</h1>
                 <br>
                 <div class="row">
                     <div class="col">
                         <h2>Favorited Teams</h2>
-                        {% for team in user_favorite_teams %}
-                            <div>
-                                {{ team.team_name }}
+                        <div class="card shadow-sm p-3 mb-5 bg-body rounded">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for team in user_favorite_teams %}
+                                                    <tr>
+                                                        <td>
+                                                            <span id="favorite-team-name-full">{{ team.team_name }}</span> 
+                                                            ({{ team.team_name.division }})
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                </div>
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
                     <div class="col">
                         <h2>Favorited Players</h2>
-                        {% for player in user_favorite_players %}
-                            <div>
-                                {{ player.player_name }}
+                        <div class="card shadow-sm p-3 mb-5 bg-body rounded">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Position</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for player in user_favorite_players %}
+                                                    <tr>
+                                                        <td>
+                                                            <span id="favorite-player-name">{{ player.player_name }}</span> 
+                                                            (<span id="favorite-player-team-abbrev">{{ player.player_team_abbrev }}</span>)
+                                                        </td>
+                                                        <td>
+                                                            {{ player.player_position }}
+                                                        </td>
+                                                    </tr>
+                                                    <span id="favorite-player-team-full-{{ player.player_team_abbrev }}" hidden>{{ player.player_team_full }}</span>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                </div>
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
                 </div>
-                
                 <br>
-                <button id="favorite-team-show-hide">Hide Favorite Team Info</button>
-
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-dark" id="favorite-team-show-hide">Hide Favorite Teams News/Media</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-dark" id="favorite-player-show-hide">Hide Favorite Players News/Media</button>
+                    </div>
+                </div>
+                <br>
+                
                 <!-- Favorited Teams Section -->
 
                 <div id="favorite-team-articles">
@@ -269,27 +320,9 @@
                         {% endfor %}
                     </div> 
                 </div>
-
-
-
             </div>
         </div>
     </div>
-
-
-    <hr>
-    <br>
-    <div>
-        <h2>Testing</h2>
-    </div>
-
-    <!-- TESTING SECTION -->
-
-   
-
-
-
-    <!-- END TESTING -->
 
     <script src="{% static 'baseball/profile.js' %}"></script>
 

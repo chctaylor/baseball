@@ -161,8 +161,13 @@ async function get_recent_team_transactions (yesterday, team_id) {
     else if (team_transaction_data_total_results == "1") {
         create_recent_team_transaction(team_transaction_data_clean.team, team_transaction_data_clean.name_display_first_last, team_transaction_data_clean.note);
     }
-    else {
+    else if (team_transaction_data_total_results < 10) {
         for (let index = 0; index < team_transaction_data_total_results; index++) {
+            create_recent_team_transaction(team_transaction_data_clean[index].team, team_transaction_data_clean[index].name_display_first_last, team_transaction_data_clean[index].note)
+        }
+    }
+    else {
+        for (let index = 0; index < 10; index++) {
             create_recent_team_transaction(team_transaction_data_clean[index].team, team_transaction_data_clean[index].name_display_first_last, team_transaction_data_clean[index].note)
         }
     }
