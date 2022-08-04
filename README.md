@@ -28,9 +28,17 @@ Using all three of these APIs to display news articles, recent tweets, games, te
     - This migration contains the code needed to populate the Teams and the TeamTwitter models used for the project. Each team is comprised of the full team name, the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) Team ID, the division, and the team name abbreviation. Alongside each team there is a list of two twitter handles, the first being the teams official twitter handle and the second being another twitter handle that posts content specific to that team. When this migration is run it gets both the Teams and TeamTwitter models and populates and saves them into the database with the information given for each team. This migration is dependent on the 0001_initial.py migration that sets up the Teams and TeamTwitter models used in this project. 
 
 ### Static Files
-  #### Images
+  - #### Images
+    - Within the images folder of the static files there are two folders, one for logos and the other for stadiums. The logos folder contains the logo for Twitter for use when displaying recent tweets. Within the stadiums file there are photos of all 30 MLB team stadiums, where 28 of them were taken from [Launch Photography](http://www.launchphotography.com/Ballpark_Panoramas.html). The other two stadium photos were taken from sites [ballparksofbaseball](https://www.ballparksofbaseball.com/ballparks/t-mobile-park/) and [gigapan](http://www.gigapan.com/gigapans?order=most_popular&profile_id=CarlosG). All images were used for the educational purpose of creating this project and credits and ownership of the images belong to those who are linked.
 
   - #### JavaScript
+
+  - #### CSS
+    - styles.css
+      - This file is used to style various elements within the project.
+
+    - owl.carousel.min.css and owl.theme.default.min.css
+      - These files were downloaded and used in order to make the owl carousel for todays games work properly.
 
 ### Templates
 
