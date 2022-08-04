@@ -28,7 +28,7 @@ Using all three of these APIs to display news articles, recent tweets, games, te
     - This migration contains the code needed to populate the Teams and the TeamTwitter models used for the project. Each team is comprised of the full team name, the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) Team ID, the division, and the team name abbreviation. Alongside each team there is a list of two twitter handles, the first being the teams official twitter handle and the second being another twitter handle that posts content specific to that team. When this migration is run it gets both the Teams and TeamTwitter models and populates and saves them into the database with the information given for each team. This migration is dependent on the 0001_initial.py migration that sets up the Teams and TeamTwitter models used in this project. 
 
 ### Static Files
-  - #### Images
+  #### Images
 
   - #### JavaScript
 
