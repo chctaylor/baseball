@@ -34,11 +34,9 @@ Using all three of these APIs to display news articles, recent tweets, games, te
   - #### JavaScript
 
   - #### CSS
-    - styles.css
-      - This file is used to style various elements within the project.
+    - styles.css file is used to style various elements within the project.
 
-    - owl.carousel.min.css and owl.theme.default.min.css
-      - These files were downloaded and used in order to make the owl carousel for todays games work properly.
+    - owl.carousel.min.css and owl.theme.default.min.css files were downloaded and used in order to make the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) for todays games work properly.
 
 ### Templates
 
