@@ -56,6 +56,14 @@ Using all three of these APIs to display news articles, recent tweets, games, te
     - owl.carousel.min.css and owl.theme.default.min.css files were downloaded and used in order to make the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) for todays games work properly.
 
 ### Templates
+  - layout.html
+    - This file sets up the overall layout of the project’s pages. In the head of the file the necessary tags for the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) and [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) are set. In the body navbar.html is included as well as the code for the carousel elements to be populated via JavaScript. The block body template tags are set to allow for the other HTML files to populate more code dependent on the page visited. More tags for [JQuery](https://jquery.com/), [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/), JavaScript, and CSS are placed to allow for usage. The template tag for the footer is placed to implement the footer onto every page visited. In the footer of the file an owl carousel script tag is necessary for usage of the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html).
+
+  - navbar.html
+    - This file contains the HTML code necessary to populate the navbar on each page visited. It uses [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) to create the overall aesthetic of the navbar and its links. The drop down teams menu is a combination of various elements from [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/). The drop down menu is from the navbar itself, but in order to get the desired effect of having all 30 of the teams in the drop down broken down by division the list group horizontal class from [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) had to be used. Within each list group, the division and its teams are listed with each team linking to their respective team page. The User profile link will take a signed in user to their profile to view their favorited teams and players.
+
+  - footer.html
+    - This file contains the HTML code necessary to populate the footer seen on each page visited. The footer contains specific sources used for the news and media aspects of the project with links to the appropriate sites. It contains the APIs used and links to their documentation. It also includes a special thank you section to friends and family who either guided me or helped me in some capacity throughout the creation of the project. There is a disclaimer at the bottom of the footer stating that all content used in this project were used for educational purposes only and are not intended to be used for commercial use without consent from the aforementioned sources. 
 
 ### .py Files
 
