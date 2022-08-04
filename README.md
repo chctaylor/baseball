@@ -24,7 +24,7 @@ Using all three of these APIs to display news articles, recent tweets, games, te
 ## What's contained in each file created
 
 ### Migrations
-  #####-0002_input_teams.py
+  ##### -0002_input_teams.py
 
 ### Static Files
 
