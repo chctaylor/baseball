@@ -2,11 +2,13 @@
 #### Final Project CS50 Web Programming with Python and JavaScript
 #### Video Demo: 
 
+
 ## How to run this application
   1. Create a virtual env
   2. `pip install -r requirements.txt`
   3. `python manage.py migrate`
   4. `python manage.py runserver`
+
 
 ## Distinctiveness and Complexity
 This project is distinctive in the fact that it is a Major League Baseball news and media site, where as other projects in this course have touched on google search queries, wikipedia postings, fetching and composing emails, eBay auctions, and social media posts. This applications main focus is getting news and media pertaining to the MLB from various sources and put that info in one convenient location.
@@ -20,6 +22,7 @@ Second, the [Twitter API](https://developer.twitter.com/en/docs) was used to fet
 Finally, a free [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) was used to get all relevant MLB data from upcoming games, team info, player info, statistics, and transactions. The necessary data from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) was fetched using both python and JavaScript and displayed depending on what data was being fetched. For example, the daily games were fetched via JavaScript to display the games at the top of every page, where as data such as player info were fetched in python and then displayed using template tags in the pages respective HTML file.
 
 Using all three of these APIs to display news articles, recent tweets, games, team info, player info, statistics and more depending on what page is currently being visited is what gives this project a definitive level of distinctiveness and complexity when compared to other projects in CS50 Web Programming with Python and JavaScript.
+
 
 ## What's contained in each file created
 
@@ -127,6 +130,7 @@ Using all three of these APIs to display news articles, recent tweets, games, te
 
 ### Requirments.txt
   - This file is a breakdown of packages that need to be downloaded in order to run this project.
+
 
 ## Additional Information
 
