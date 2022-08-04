@@ -42,6 +42,12 @@ Using all three of these APIs to display news articles, recent tweets, games, te
 
 ### .py Files
 
+  - keys.py
+    - This file is ignored via gitignore, however it is where the API keys for the [News API](https://newsapi.org/) and [Twitter API](https://developer.twitter.com/en/docs) are stored and called from views.py.
+
+  - models.py
+    - This file contains the models used in this project. It contains the Teams model, TeamTwitter model, FavoriteTeams model, and FavoritePlayers model. The Teams and TeamTwitter models are pre-populated with the appropriate data following the first migration of the project as stated above under the Migrations section. The FavoritedTeams model and the FavoritePlayers model allows the user to favorite teams and/or players that they can then view news and media for on their own personal profile page.
+
 ### Sources.txt
   - This file contains descriptions and links to the various issues that were solved throughout the project in some way by following the advice found via the given links. It also gives image credit for the MLB stadium photos used in this project for the team pages seen via links to the appropriate sites.
 
