@@ -127,3 +127,7 @@ Using all three of these APIs to display news articles, recent tweets, games, te
 
 ### Requirments.txt
   - This file is a breakdown of packages that need to be downloaded in order to run this project.
+
+## Additional Information
+
+  - API keys for the [News API](https://newsapi.org/) and [Twitter API](https://developer.twitter.com/en/docs) will be required to run the project appropriately. Creating a file called keys.py and storing them in a format such as NEWS_API_KEY = “XXXXXXXXXXXXXXXX” in order to call them in the views.py.
