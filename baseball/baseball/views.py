@@ -319,7 +319,7 @@ def player_view(request, pk):
 
 @login_required
 def profile_view(request, pk):
-    user = User.objects.get(id=pk)
+    user = User.objects.get(username=pk)
 
     # Check if profile belongs to current user
     if user != request.user:
