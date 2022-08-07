@@ -1,2 +1,137 @@
-# baseball
-CS50 Web Programming with Python and Javascript Final Project
+# Baseball
+#### Final Project CS50 Web Programming with Python and JavaScript
+#### Video Demo: 
+
+
+## How to run this application
+  1. Create a virtual env
+  2. `pip install -r requirements.txt`
+  3. `python manage.py migrate`
+  4. `python manage.py runserver`
+
+
+## Distinctiveness and Complexity
+This project is distinctive in the fact that it is a Major League Baseball news and media site, where as other projects in this course have touched on google search queries, wikipedia postings, fetching and composing emails, eBay auctions, and social media posts. This applications main focus is getting news and media pertaining to the MLB from various sources and put that info in one convenient location.
+
+The bulk of the projects complexity comes from the use of three separate APIs. 
+
+First, in order to get the desired MLB news articles, the free version of [News API](https://newsapi.org/) was used. By using this API, news articles from sources such as ESPN, NBC Sports, Fox Sports, and CBS Sports pertaining specifically to the MLB were fetched using python and then displayed on the site. Using various parameters the application will display news articles dependent on which page you are on. Being on the main page displays all MLB articles from the aforementioned sources, where as if you are on a team page or a players page, the articles that are displayed will be team or player specific.
+
+Second, the [Twitter API](https://developer.twitter.com/en/docs) was used to fetch recent tweets from various users dependent on which page of the application is being visited. If on the home page, a set of MLB specific handles are fetched using python and displayed on the site with a replica of the Twitter card. As with the news articles, if a team page or player page is visited, the Twitter posts that are fetched are either team specific, based on the teams specific Twitter handle and a second Twitter handle that covers the team, or player specific, using the players own Twitter handle, if one exists, to display the most recent tweets.
+
+Finally, a free [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) was used to get all relevant MLB data from upcoming games, team info, player info, statistics, and transactions. The necessary data from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) was fetched using both python and JavaScript and displayed depending on what data was being fetched. For example, the daily games were fetched via JavaScript to display the games at the top of every page, where as data such as player info were fetched in python and then displayed using template tags in the pages respective HTML file.
+
+Using all three of these APIs to display news articles, recent tweets, games, team info, player info, statistics and more depending on what page is currently being visited is what gives this project a definitive level of distinctiveness and complexity when compared to other projects in CS50 Web Programming with Python and JavaScript.
+
+
+## What's contained in each file created
+
+### Migrations
+  - 0002_input_teams.py
+    - This migration contains the code needed to populate the Teams and the TeamTwitter models used for the project. Each team is comprised of the full team name, the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) Team ID, the division, and the team name abbreviation. Alongside each team there is a list of two twitter handles, the first being the teams official twitter handle and the second being another twitter handle that posts content specific to that team. When this migration is run it gets both the Teams and TeamTwitter models and populates and saves them into the database with the information given for each team. This migration is dependent on the 0001_initial.py migration that sets up the Teams and TeamTwitter models used in this project. 
+
+### Static Files
+  - #### Images
+    - Within the images folder of the static files there are two folders, one for logos and the other for stadiums. The logos folder contains the logo for Twitter for use when displaying recent tweets. Within the stadiums file there are photos of all 30 MLB team stadiums, where 28 of them were taken from [Launch Photography](http://www.launchphotography.com/Ballpark_Panoramas.html). The other two stadium photos were taken from sites [ballparksofbaseball](https://www.ballparksofbaseball.com/ballparks/t-mobile-park/) and [gigapan](http://www.gigapan.com/gigapans?order=most_popular&profile_id=CarlosG). All images were used for the educational purpose of creating this project and credits and ownership of the images belong to those who are linked.
+
+  - #### JavaScript
+    - Functions.js
+      - This file waits for the DOM content to be loaded. Once loaded the days MLB game broadcast data is fetched from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) using todays date. The data is then looped over, checking for duplicate games due to varying broadcasting options, and passed into a function to create the necessary elements to populate the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) and display todays games at the top of every page. JQuery is also used in this file for to determine the functionality and breakpoints of the carousel.
+
+    - Index.js
+      - This file handles all the JavaScript used on the home page of the project. After the DOM content is loaded todays and yesterdays dates are determined. Using todays date, the top 5 hitting and pitching leaders in multiple categories each are fetched from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top), looped over, and then passed into a function to create and populate the necessary elements to display the data. Using yesterdays date, recent transaction data pertaining to player trades or injuries are fetched using the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top), looped over, and then passed into a function to create and populate the necessary elements to display the data. Each player name and team name for both sets of data are linkable to the player and team pages respectively. This file also reformates the time and date stamp for the news articles and tweets into a more user friendly date stamp.
+
+    - player.js
+      - This file handles all the JavaScript used on the player page of the project. After the DOM content is loaded, todays and yesterdays dates are determined. The players name is retrieved from the URL and reformatted for the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) query parameter. After fetching data using the players name and the date, determine the players debut year in the league and determine the number of years the player has played. The fetched player data is passed into two functions. The first determines each years stats the player has played and by running the second function, which fetchs the players specific season stats for the current requested season based on that players position. After the stats for each season the player has played are received in order, depending on the position, the elements are created and populated to properly display the data to the user. The code checks for gap years as well as a player who has been on multiple teams within the same season. Dates and times are reformatted for news articles and recent tweets into a more user friendly date stamp. This file also contains an on click event listener to see if the team name within the players bio is clicked, and if so it will link the user to that teams page.
+
+    - team.js
+      - This file handles all the JavaScript used on the team page of the project. This file took what was learned in the other JavaScript files and was an attempt to further simplify the code and make it more efficient. After the DOM content is loaded there are two functions called. The first function called determines todays and yesterdays date. The function then fetches all teams data from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top), gets the desired visited teams name from the URL in order to then get the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) Team ID. After determining the Team ID, the desired teams hitting/pitching leaders and recent transactions are requested via two functions. The hitting/pitching leaders function takes predetermined hitting and pitching stats and requests the data from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) for each stat in each category. After fetching the data, it is passed into one of three functions to handle no results, only one result, or more than one result and creates and populates the appropriate elements for display based on the stat and which category were fetched. The transactions function fetches team specific transactions made via the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) and is then passed into one of three functions, handling no results, one result, or more than one result, to create and populate the necessary elements for display. Dates and times are reformatted for news articles and recent tweets into a more user friendly date stamp. This file also contains an on click event listener to see if a player name within the 40 man roster is clicked, and if so it will link the user to that players page.
+
+    - profile.js
+      - This file handles all the JavaScript used on the user profile page of the project. The main purpose of this file is to determine what element has been clicked on and pass that element into a function. The functions either allow for the team name, team abbreviation, or player name to be clickable links to their respecitive pages or they allow the user to hide/show the team or player content on their user profile page. The publishing dates for both the twitter posts and news articles are also formatted into a more user friendly format.
+
+    - jquery-3.6.0.js and owl.carousel.min.js
+      - These files were downloaded and used in order to make the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) for todays games work properly.
+
+  - #### CSS
+    - styles.css file is used to style various elements within the project.
+
+    - owl.carousel.min.css and owl.theme.default.min.css files were downloaded and used in order to make the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) for todays games work properly.
+
+### Templates
+  - layout.html
+    - This file sets up the overall layout of the project’s pages. In the head of the file the necessary tags for the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html) and [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) are set. In the body navbar.html is included as well as the code for the carousel elements to be populated via JavaScript. The block body template tags are set to allow for the other HTML files to populate more code dependent on the page visited. More tags for [JQuery](https://jquery.com/), [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/), JavaScript, and CSS are placed to allow for usage. The template tag for the footer is placed to implement the footer onto every page visited. In the footer of the file an owl carousel script tag is necessary for usage of the [owl carousel](https://owlcarousel2.github.io/OwlCarousel2/docs/started-welcome.html).
+
+  - navbar.html
+    - This file contains the HTML code necessary to populate the navbar on each page visited. It uses [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) to create the overall aesthetic of the navbar and its links. The drop down teams menu is a combination of various elements from [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/). The drop down menu is from the navbar itself, but in order to get the desired effect of having all 30 of the teams in the drop down broken down by division the list group horizontal class from [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) had to be used. Within each list group, the division and its teams are listed with each team linking to their respective team page. The User profile link will take a signed in user to their profile to view their favorited teams and players.
+
+  - footer.html
+    - This file contains the HTML code necessary to populate the footer seen on each page visited. The footer contains specific sources used for the news and media aspects of the project with links to the appropriate sites. It contains the APIs used and links to their documentation. It also includes a special thank you section to friends and family who either guided me or helped me in some capacity throughout the creation of the project. There is a disclaimer at the bottom of the footer stating that all content used in this project were used for educational purposes only and are not intended to be used for commercial use without consent from the aforementioned sources. 
+
+  - index.html
+    - This file contains all the HTML code used for the home page of the project. Using [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) the sites page is split into two sections, one for news and media, the other for stats and more. 
+      1. News and Media:
+         - The news articles are populated using template tags and loops to display [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) cards with information such as the title, which is a clickable link to the article, description, photos, and source for each article. Recent tweets are populated in a similar manor to the news articles, using template tags, loops and if statements, to display [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) created twitter cards with information such as the user, their twitter handle and photo, the twitter logo linking to twitter, the content of the tweet including text and photos/videos, a timestamp, and a link to the specific twitter post.
+      2. Stats and More: 
+         - Hitting and Pitching leaders are displayed using [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) accordion class objects. Each category under the Hitting and Pitching leaders are populated with the players name, their teams abbreviation, and the stat for the given category via JavaScript. Each players name and team abbreviation are clickable links that will take the user to the player and team page respectively. Recent transactions are displayed using [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) card class. The recent transactions are populated via JavaScript with the team and player names who are subjects of the transaction and a brief description of the transaction details. Each team and player name are clickable links to their respective pages. Note: Some team names are minor league teams and clicking on the team name will result in the error page due to the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) not having data on minor league teams.
+
+  - player.html
+    - This file contains all the HTML code used for the player page of the project. The page is broken down into the bio, stats, news, and media.
+      1. The bio portion of the page displays the players name and twitter handle, if one exists. Using [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) to display the player bio, template tags are used to populate the specific information in the bio. Within the bio, the players current team is a clickable via JavaScript and will take the user to the appropriate team page.
+      2. The stats portion of the page is broken into two subcategories, season and career, both using tables and [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) cards class to display the information desired. The players position determines what stats are displayed. Pitchers will display pitching stats where as non pitchers will display hitting stats. Both the current season and the career stats are populated via template tags. The remainder of the season stats broken down by year are populated via JavaScript in order dating back to the players debut season. 
+      3. The news portion of the page uses template tags, if and for loops, to display news articles in a similar fashion to the home page, but using [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) to display four articles in two rows of two. If no recent articles exist for the current player, a message will show apologizing for the lack of articles.
+      4. The media portion of the page shows recent tweets in a similar fashion to the home page. If the user has not posted recently, there will be a message apologizing for the lack of tweets, with a link to the users twitter profile. However, if the player does not have a twitter account, a message will display stating that the player does not have a twitter account.
+    - At the top of the page near the player name there is a star button that will either favorite or unfavorite the player. This star is only visible to those with an account and signed in.
+
+  - team.html
+    - This file contains all the HTML code used for the team page of the project. The page is broken down into team info, 40 man roster, stats and transactions, news, and media.
+      1. The team info portion of the page starts with a photo of the teams stadium that have been saved into the [static images](https://github.com/chctaylor/baseball/edit/main/README.md#images) folder of this project. 28 of the 30 team photos were taken from [Launch Photography](http://www.launchphotography.com/Ballpark_Panoramas.html) by Ben Cooper. Each photo by Ben still has the name and website on the photo to give credit to the artist. The photos are strictly used for the educational purposes of building this project and are owned by Ben Cooper. The remaining 2 team photos sources are in the sources.txt file. Following the photo the teams name is displayed along with a team info section using a [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) card. In the team info section specific data from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) is used.
+      2. The 40 man roster portion of the page uses [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) card and tables to show the appropriate date for each player on the roster. The roster is broken down using if statements to check the players position to categorize them by position and then to display the appropriate information from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top). Each players name is a clickable link using JavaScript that will take you to the players respective page. 
+      3. The stats portion of the page displays up to 5 of the hitting and pitching leaders per category for only the team that the user is visiting. The [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) accordion cards are populated using JavaScript. 
+      4. The transactions portion of the page displays the teams recent transactions if any were made. If no transactions are made, there is an error message that populates this [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) card. The transactions are populated via JavaScript.
+      5. The recent news portion of the page is similar to that of the player page, but it displays three rows of two articles specific to the team being visited. If no recent articles are available, an error message shows up within this section.
+      6. The media portion of the page is similar to the home page of this project. If the either of the teams handles have posted recent tweets, they will be populated here using template tags.
+    - At the top of the page near the team name there is a star button that will either favorite or unfavorite the team. This star is only visible to those with an account and signed in.
+
+  - profile.html
+    - This file contains the HTML code for handling the user’s profile page. If the signed in user has not favorited any teams or players yet the page will display under one or both the respective sections that the user has not followed a team or player respectively. Once a user has favorited a team and/or a player, the name will be displayed under either the favorited team or favorited player section. For each favorited team the user will be shown the latest two news articles and the teams last 5 tweets. Similarly for each favorited player, the user will be shown the latest two news articles and, if applicable, the players most recent 5 tweets. The user will have the ability to hide or show the news and media for either the favorited teams or the favorited players using JavaScript.
+
+  - error.html
+    - This file contains the HTML code for handling errors such as if the team or player is not found within the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top). The page displays the name of either the team or the player, a gif showing a batter swinging and missing, and an apology stated that the desired team or player does not have any data in the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top).
+
+  - multi_player_error.html
+    - This file contains the HTML code for handling errors where more than one player has the exact same spelling of their name. The page displays the player name, a gif of the scene with two Spiderman characters pointing at each other, and an apology stated that the player requested has another player with the same name and at the moment we are unable to differentiate between the two.
+
+  - login.html
+    - This file contains the HTML code for handling the login feature of the project. Users that have created an account are shown a login form requesting their username and password. If the user has yet to create an account, a link to the registration page is provided.
+
+  - register.html
+    - This file contains the HTML code for handling the registration feature of the project. Users have the ability to register for an account by providing their first and last names, email address, desired username, and creating and confirming their desired password. If the user has already created an account, there is a provided link to the login page.
+
+### .py Files
+
+  - keys.py
+    - This file is ignored via gitignore, however it is where the API keys for the [News API](https://newsapi.org/) and [Twitter API](https://developer.twitter.com/en/docs) are stored and called from views.py.
+
+  - models.py
+    - This file contains the models used in this project. It contains the Teams model, TeamTwitter model, FavoriteTeams model, and FavoritePlayers model. The Teams and TeamTwitter models are pre-populated with the appropriate data following the first migration of the project as stated above under the [Migrations](https://github.com/chctaylor/baseball/blob/main/README.md#migrations) section. The FavoritedTeams model and the FavoritePlayers model allows the user to favorite teams and/or players that they can then view news and media for on their own personal profile page.
+
+  - views.py
+    - This file contains all the python code used to implement the different pages of this project. It is broken down into an index view, team view, player view, profile view, login view, logout view, and register view.
+      - The index view handles the python code to run the home page of this project. The code gets the [News API](https://newsapi.org/) keys from keys.py and fetches the news articles from various sources pertaining to the MLB while putting in parameter constraints to stop other articles from outside the MLB from being displayed. The code also gets the Twitter authentication token and fetches recent tweets from various MLB related Twitter handles. After fetching both the articles and recent tweets, the data is passed into the HTML template via context.
+      - The team view handles the python code to run the team specific pages of this project. The team is specified using a primary key that is taken from the URL and then reformatted appropriately depending on what data is needed. Once the team is determined the code will parse through the database to find the correct team and determine its [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) Team ID in order to further fetch data related to the team. If the searched team does not exist or does not have data in the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) an error page will be displayed. This view handles the ability to favorite/unfavorite a team if a user is signed into an account by getting the team name and the user id and saving or deleting the info to the database. Like the home page, news articles and recent tweets related to the team will be fetched using specific parameters and all the data will be passed into the HTML file via context. 
+      - The player view handles the python code to run the player specific pages of this project. The player is specified using a primary key that is taken from the URL. The player name is then used as a parameter in fetching more data such as general player info and statistics pertaining to the player from the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top). If the player does not exist within the [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) the user will be taken to an error page or if more than one player has the same name the player will be taken to a different error page. This view handles the ability to favorite/unfavorite a player if a user is signed into an account by getting the player [MLB Data API](https://appac.github.io/mlb-data-api-docs/#top) ID and the user id and saving or deleting the info to the database. Like the home page, news articles related to and recent tweets from the player will be fetched using specific parameters and all the data will be passed into the HTML file via context. 
+      - The profile view handles the python code to run the users personal profile page of this project. This view specifically requires that a user have an account and be logged in. After confirming the user matches the requested profile page, the currently favorited teams and players are fetched from the database. Those teams and players are then looped over to fetch both recent articles from the [News API](https://newsapi.org/) and recent team/player tweets from the [Twitter API](https://developer.twitter.com/en/docs) where the data is then be passed into the HTML file via context.
+      - The Login/Logout/Register views handle the python code to allow users to register, login, and logout of their own personal profiles.
+
+
+### Sources.txt
+  - This file contains descriptions and links to the various issues that were solved throughout the project in some way by following the advice found via the given links. It also gives image credit for the MLB stadium photos used in this project for the team pages seen via links to the appropriate sites.
+
+### Requirments.txt
+  - This file is a breakdown of packages that need to be downloaded in order to run this project.
+
+
+## Additional Information
+
+  - API keys for the [News API](https://newsapi.org/) and [Twitter API](https://developer.twitter.com/en/docs) will be required to run the project appropriately. Creating a file called keys.py and storing them in a format such as NEWS_API_KEY = “XXXXXXXXXXXXXXXX” in order to call them in the views.py.
