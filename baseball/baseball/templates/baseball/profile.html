@@ -144,24 +144,24 @@
                             {% for tweet in team_tweets.data %}
                                 <!-- Show only 5 tweets per team -->
                                 {% if forloop.counter0 < 5 %}
-                                    <div class="col-8">
+                                    <div class="col-md-8">
                                         <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                                             <div class="container" style="padding: 15px 15px;">
                                                 <div class="row" style="padding-bottom: 10px;">
                                                     <!-- Populating User Info -->
                                                     {% for user in team_tweets.includes.users %}
                                                         {% if user.id == tweet.author_id %}
-                                                            <div class="col-lg-2">
+                                                            <div class="col-sm-2">
                                                                 <img src="{{ user.profile_image_url }}" style="height: 48px; width: 48px;"> 
                                                             </div>
-                                                            <div class="col-lg" style="padding-left: 0;">
+                                                            <div class="col-sm" style="padding-left: 0;">
                                                                 <div>{{ user.name }}</div>
                                                                 <div>@{{ user.username }}</div>
                                                             </div>
                                                         {% endif %}
                                                     {% endfor %}
                                                     <!-- Twitter Logo -->
-                                                    <div class="col-lg">
+                                                    <div class="col-sm-1">
                                                         <a href="https://twitter.com/"><img src="{% static 'baseball/images/logos/Twitter_Logo_Blue.png' %}" class="card_img" style="float: right;" height="19.22" width="23.65"></a>
                                                     </div>
                                                 </div>
@@ -263,24 +263,24 @@
                             {% for tweet in player_tweets.data %}
                                 <!-- Show only 5 tweets per team -->
                                 {% if forloop.counter0 < 5 %}
-                                    <div class="col-8">
+                                    <div class="col-md-8">
                                         <div class="card shadow-sm p-3 mb-5 bg-body rounded">
                                             <div class="container" style="padding: 15px 15px;">
                                                 <div class="row" style="padding-bottom: 10px;">
                                                     <!-- Populating User Info -->
                                                     {% for user in player_tweets.includes.users %}
                                                         {% if user.id == tweet.author_id %}
-                                                            <div class="col-lg-2">
+                                                            <div class="col-sm-2">
                                                                 <img src="{{ user.profile_image_url }}" style="height: 48px; width: 48px;"> 
                                                             </div>
-                                                            <div class="col-lg" style="padding-left: 0;">
+                                                            <div class="col-sm" style="padding-left: 0;">
                                                                 <div>{{ user.name }}</div>
                                                                 <div>@{{ user.username }}</div>
                                                             </div>
                                                         {% endif %}
                                                     {% endfor %}
                                                     <!-- Twitter Logo -->
-                                                    <div class="col-lg">
+                                                    <div class="col-sm-1">
                                                         <a href="https://twitter.com/"><img src="{% static 'baseball/images/logos/Twitter_Logo_Blue.png' %}" class="card_img" style="float: right;" height="19.22" width="23.65"></a>
                                                     </div>
                                                 </div>

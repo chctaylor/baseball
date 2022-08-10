@@ -52,14 +52,12 @@ dt, dd {
     top: 25%;
 }
 
-
-
 /* Footer */
 
 body {
     min-height: 100vh;
     position: relative;
-    padding-bottom: 300px;
+    padding-bottom: 350px;
     background-color: rgb(255, 255, 255);
 }
   
